@@ -1,26 +1,338 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ------------------------------------------------------------------
+   ShinePro design tokens — warm light theme
+
+   Bone/sand surfaces (bright, but never stark white), charcoal type,
+   burnished gold for the brand and deep teal for anything technical.
+
+   Token names are surface-role based and were kept from the original
+   dark build so components did not need renaming:
+     ink   → page surface        ink-2..4 → progressively deeper sand panels
+     line  → hairline borders    line-2   → stronger rules
+     fog   → muted text          mist     → secondary text
+     chalk → primary text (the darkest colour on the page)
+------------------------------------------------------------------- */
+@theme {
+  --color-ink: #f4f0e8;
+  --color-ink-2: #ece6da;
+  --color-ink-3: #e4dccd;
+  --color-ink-4: #d9cfbc;
+  --color-line: #ddd4c3;
+  --color-line-2: #c6b99f;
+
+  --color-fog: #6b6d75;
+  --color-mist: #3f424b;
+  --color-chalk: #17181d;
+
+  --color-gold: #b8862b;
+  --color-gold-2: #8f6716;
+  --color-gold-3: #e6cf9a;
+
+  --color-aqua: #0f8a7b;
+  --color-aqua-2: #0b675c;
+  --color-aqua-3: #bfe6df;
+
+  --font-display: var(--font-syne), var(--font-arabic), ui-sans-serif, system-ui,
+    sans-serif;
+  --font-body: var(--font-inter), var(--font-arabic), ui-sans-serif, system-ui,
+    sans-serif;
+
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-marquee-rev: marquee-rev 38s linear infinite;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-sheen: sheen 3.4s var(--ease-expo) infinite;
+  --animate-pulse-ring: pulse-ring 2.6s ease-out infinite;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes marquee-rev {
+  to {
+    transform: translateX(50%);
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+@keyframes sheen {
+  0% {
+    background-position: -220% 0;
+  }
+  60%,
+  100% {
+    background-position: 220% 0;
+  }
+}
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ---------------------------- base ---------------------------- */
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    background-color: var(--color-ink);
+    color-scheme: light;
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-chalk);
+    font-family: var(--font-body);
+    font-feature-settings: "ss01", "cv01";
+    overflow-x: clip;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Arabic gets its own stack for both roles — Syne has no Arabic glyphs. */
+  [dir="rtl"] {
+    --font-display: var(--font-arabic), ui-sans-serif, system-ui, sans-serif;
+    --font-body: var(--font-arabic), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  [dir="rtl"] body {
+    line-height: 1.85;
+    letter-spacing: 0;
+  }
+  [dir="rtl"] h1,
+  [dir="rtl"] h2,
+  [dir="rtl"] h3 {
+    line-height: 1.45;
+    letter-spacing: 0;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-aqua);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-ink);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-line-2);
+    border-radius: 99px;
+    border: 2px solid var(--color-ink);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gold);
+  }
+}
+
+/* --------------------------- helpers --------------------------- */
+@utility container-x {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 84rem;
+  padding-inline: 1.25rem;
+  @media (min-width: 768px) {
+    padding-inline: 2rem;
+  }
+  @media (min-width: 1280px) {
+    padding-inline: 2.5rem;
+  }
+}
+
+/* Frosted panel: nav bar, overlays, floating labels. */
+@utility glass {
+  background: color-mix(in oklab, #ffffff 62%, transparent);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid color-mix(in oklab, var(--color-line-2) 60%, transparent);
+}
+
+/* Burnished-metal text fill — charcoal with a gold glint sweeping through. */
+@utility text-chrome {
+  background: linear-gradient(
+    100deg,
+    var(--color-chalk) 0%,
+    var(--color-mist) 18%,
+    var(--color-gold) 42%,
+    var(--color-gold-2) 52%,
+    var(--color-chalk) 68%,
+    var(--color-chalk) 100%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: var(--animate-sheen);
+}
+
+@utility text-gradient-gold {
+  background: linear-gradient(
+    120deg,
+    var(--color-gold-2) 0%,
+    var(--color-gold) 55%,
+    #d7a744 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* 1px gradient hairline border — used sparingly now, mainly on photos. */
+@utility ring-hairline {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      140deg,
+      color-mix(in oklab, var(--color-gold) 55%, transparent),
+      color-mix(in oklab, var(--color-line-2) 60%, transparent) 40%,
+      color-mix(in oklab, var(--color-line-2) 60%, transparent) 60%,
+      color-mix(in oklab, var(--color-aqua) 40%, transparent)
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+@utility grid-lines {
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in oklab, var(--color-line-2) 45%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--color-line-2) 45%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 64px 64px;
+}
+
+@utility mask-fade-y {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 12%,
+    #000 88%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 12%,
+    #000 88%,
+    transparent
+  );
+}
+
+@utility mask-fade-x {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+
+/* Soft ambient colour wash. Plain gradients, no filter and no animation —
+   a blurred, animated layer re-rasterises every frame and was the single
+   biggest cause of scroll jank. */
+@utility aurora {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      55% 60% at 18% 22%,
+      color-mix(in oklab, var(--color-gold) 16%, transparent),
+      transparent 72%
+    ),
+    radial-gradient(
+      50% 55% at 84% 70%,
+      color-mix(in oklab, var(--color-aqua) 11%, transparent),
+      transparent 72%
+    );
+}
+
+/* Dark photo scrim for any text sitting on top of a photograph. */
+@utility scrim {
+  background: linear-gradient(
+    to top,
+    rgba(20, 17, 12, 0.82) 0%,
+    rgba(20, 17, 12, 0.45) 45%,
+    rgba(20, 17, 12, 0) 100%
+  );
+}
+
+/* Flip an element's horizontal axis in RTL (arrows, chevrons). */
+@utility flip-rtl {
+  [dir="rtl"] & {
+    transform: scaleX(-1);
+  }
+}
+
+/* Editorial rule: the thin top border that separates list rows / columns. */
+@utility rule-t {
+  border-top: 1px solid var(--color-line);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
