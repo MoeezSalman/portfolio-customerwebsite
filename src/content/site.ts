@@ -1,22 +1,24 @@
 import type { Bi } from "@/i18n/config";
+import { photo, type MediaSlot } from "@/lib/media";
 
 /**
  * Brand + contact details, sourced from the client's live site (shinepro.work).
- * Everything identity-related lives here so a rebrand is a one-file change.
+ * ShinePro does one thing: it makes hard floors shine — marble, tiles,
+ * granite, terrazzo. Nothing else is offered anywhere on the site.
  */
 export const site = {
   name: { en: "ShinePro", ar: "شاين برو" } satisfies Bi,
   legalName: {
-    en: "ShinePro Maintenance & Surface Care",
-    ar: "شاين برو للصيانة والعناية بالأسطح",
+    en: "ShinePro Floor Polishing",
+    ar: "شاين برو لجلي وتلميع الأرضيات",
   } satisfies Bi,
   tagline: {
-    en: "Riyadh's surface & maintenance specialists",
-    ar: "متخصصو العناية بالأسطح والصيانة في الرياض",
+    en: "Riyadh's floor shining experts",
+    ar: "خبراء جلي وتلميع الأرضيات في الرياض",
   } satisfies Bi,
   description: {
-    en: "Professional tile, marble and floor polishing plus full home and facility maintenance across Riyadh — delivered with industrial-grade machinery and a workmanship guarantee.",
-    ar: "خدمات احترافية لجلي وتلميع البلاط والرخام والأرضيات، بالإضافة إلى الصيانة الشاملة للمنازل والمنشآت في الرياض — بأحدث المعدات الصناعية وضمان على جودة التنفيذ.",
+    en: "We polish marble, tiles, granite and terrazzo floors in Riyadh. Big machines, real shine, fair prices.",
+    ar: "نجلي ونلمّع أرضيات الرخام والبلاط والجرانيت والترازو في الرياض. معدات قوية، لمعان حقيقي، وأسعار عادلة.",
   } satisfies Bi,
 
   phone: "0504501138",
@@ -29,8 +31,8 @@ export const site = {
     ar: "حي الياسمين، الرياض، المملكة العربية السعودية",
   } satisfies Bi,
   hours: {
-    en: "Sat – Thu, 8:00 AM – 11:00 PM · Emergency line 24/7",
-    ar: "السبت – الخميس، ٨:٠٠ ص – ١١:٠٠ م · خط الطوارئ ٢٤ ساعة",
+    en: "Sat – Thu, 8:00 AM – 11:00 PM",
+    ar: "السبت – الخميس، ٨:٠٠ ص – ١١:٠٠ م",
   } satisfies Bi,
 
   social: [
@@ -46,108 +48,174 @@ export const waLink = (message?: Bi, locale: "en" | "ar" = "ar") =>
     message ? `?text=${encodeURIComponent(message[locale])}` : ""
   }`;
 
-/** Primary navigation. `children` renders as a mega-menu column. */
-export const nav: {
-  href: string;
-  label: Bi;
-  children?: { href: string; label: Bi }[];
-}[] = [
+/** Primary navigation. */
+export const nav: { href: string; label: Bi }[] = [
   { href: "/", label: { en: "Home", ar: "الرئيسية" } },
-  { href: "/about", label: { en: "About", ar: "من نحن" } },
   { href: "/services", label: { en: "Services", ar: "خدماتنا" } },
-  { href: "/projects", label: { en: "Projects", ar: "أعمالنا" } },
-  { href: "/equipment", label: { en: "Equipment", ar: "معداتنا" } },
+  { href: "/projects", label: { en: "Our work", ar: "أعمالنا" } },
+  { href: "/equipment", label: { en: "Machines", ar: "معداتنا" } },
   { href: "/packages", label: { en: "Packages", ar: "الباقات" } },
   { href: "/areas", label: { en: "Coverage", ar: "نطاق الخدمة" } },
-  { href: "/blog", label: { en: "Journal", ar: "المدونة" } },
+  { href: "/blog", label: { en: "Tips", ar: "نصائح" } },
+  { href: "/about", label: { en: "About", ar: "من نحن" } },
   { href: "/contact", label: { en: "Contact", ar: "تواصل معنا" } },
 ];
 
 export const stats: { value: number; suffix: Bi; label: Bi }[] = [
   {
-    value: 18,
+    value: 12,
     suffix: { en: "+", ar: "+" },
-    label: { en: "Years on Riyadh floors", ar: "عامًا في أرضيات الرياض" },
+    label: { en: "Years polishing floors", ar: "سنة في جلي الأرضيات" },
   },
   {
-    value: 6400,
+    value: 5000,
     suffix: { en: "+", ar: "+" },
-    label: { en: "Projects completed", ar: "مشروعًا منجزًا" },
+    label: { en: "Floors made shiny", ar: "أرضية أعدنا لمعانها" },
   },
   {
-    value: 100,
-    suffix: { en: "+", ar: "+" },
-    label: { en: "Certified technicians", ar: "فنيًا معتمدًا" },
+    value: 30,
+    suffix: { en: "", ar: "" },
+    label: { en: "Trained technicians", ar: "فنيًا مدرّبًا" },
   },
   {
-    value: 4,
-    suffix: { en: "h", ar: " س" },
-    label: { en: "Average response time", ar: "متوسط زمن الاستجابة" },
+    value: 90,
+    suffix: { en: "", ar: "" },
+    label: { en: "Days shine guarantee", ar: "يومًا ضمان اللمعان" },
   },
 ];
 
+/** Four simple promises. */
 export const guarantees: { title: Bi; body: Bi; icon: string }[] = [
   {
     icon: "shield",
-    title: { en: "90-day workmanship warranty", ar: "ضمان ٩٠ يومًا على التنفيذ" },
+    title: { en: "Shine guaranteed", ar: "لمعان مضمون" },
     body: {
-      en: "If a finish dulls or a repair fails inside 90 days, we return and redo it at no charge.",
-      ar: "إذا بهت اللمعان أو تعطّل الإصلاح خلال ٩٠ يومًا، نعود وننفّذه من جديد دون أي تكلفة.",
-    },
-  },
-  {
-    icon: "clock",
-    title: { en: "Same-day emergency callout", ar: "استجابة طارئة في نفس اليوم" },
-    body: {
-      en: "Burst pipes, power faults and AC failures get a technician dispatched within four hours.",
-      ar: "تسرّب المواسير وأعطال الكهرباء والتكييف — نرسل الفني خلال أربع ساعات.",
-    },
-  },
-  {
-    icon: "tag",
-    title: { en: "Fixed quote before we start", ar: "عرض سعر ثابت قبل البدء" },
-    body: {
-      en: "You approve a written scope and price. No variations invented mid-job.",
-      ar: "توافق على نطاق العمل والسعر كتابيًا. بدون أي زيادات مفاجئة أثناء التنفيذ.",
+      en: "If the shine fades in 90 days, we come back and polish again for free.",
+      ar: "إذا بهت اللمعان خلال ٩٠ يومًا، نعود ونلمّع من جديد مجانًا.",
     },
   },
   {
     icon: "leaf",
-    title: { en: "Low-odour, family-safe materials", ar: "مواد آمنة وقليلة الروائح" },
+    title: { en: "No dust, no mess", ar: "بدون غبار أو فوضى" },
     body: {
-      en: "Water-based sealers and certified compounds — the space is usable the same evening.",
-      ar: "مواد عزل مائية ومركبات معتمدة — المكان جاهز للاستخدام في نفس المساء.",
+      en: "Our machines catch the dust. Your home stays clean while we work.",
+      ar: "معداتنا تشفط الغبار. يبقى منزلك نظيفًا أثناء العمل.",
+    },
+  },
+  {
+    icon: "tag",
+    title: { en: "Fixed price first", ar: "سعر ثابت قبل البدء" },
+    body: {
+      en: "You get the price before we start. It does not change.",
+      ar: "تعرف السعر قبل أن نبدأ. ولا يتغير.",
+    },
+  },
+  {
+    icon: "clock",
+    title: { en: "Fast and on time", ar: "سريع وفي الموعد" },
+    body: {
+      en: "Most homes are done in one day. We arrive when we say we will.",
+      ar: "معظم المنازل تنتهي في يوم واحد. ونصل في الموعد الذي حددناه.",
     },
   },
 ];
 
-export const processSteps: { title: Bi; body: Bi }[] = [
+/** How it works — four steps, each with a picture. */
+export const processSteps: { title: Bi; body: Bi; media: MediaSlot }[] = [
   {
-    title: { en: "Share the job", ar: "أخبرنا بالمطلوب" },
+    title: { en: "Send a photo", ar: "أرسل صورة" },
     body: {
-      en: "Send photos on WhatsApp or book a survey. We read the surface, the substrate and the damage.",
-      ar: "أرسل الصور عبر واتساب أو احجز معاينة. نقرأ نوع السطح والأرضية تحته وحجم الضرر.",
+      en: "Take a photo of your floor and send it on WhatsApp.",
+      ar: "صوّر أرضيتك وأرسل الصورة على واتساب.",
     },
+    media: photo("marble-stained", {
+      en: "A dull, stained marble floor before polishing",
+      ar: "أرضية رخام باهتة ومبقّعة قبل الجلي",
+    }),
   },
   {
-    title: { en: "Fixed written quote", ar: "عرض سعر مكتوب وثابت" },
+    title: { en: "We visit and quote", ar: "نزورك ونعطيك السعر" },
     body: {
-      en: "Scope, machinery, materials, duration and price — approved by you before a single tool moves.",
-      ar: "نطاق العمل والمعدات والمواد والمدة والسعر — بموافقتك قبل تشغيل أي معدة.",
+      en: "We come to see the floor and give you one fixed price.",
+      ar: "نأتي لمعاينة الأرضية ونعطيك سعرًا واحدًا ثابتًا.",
     },
+    media: photo("man-thobe", {
+      en: "A client walking across a polished marble courtyard",
+      ar: "عميل يمشي على فناء رخامي مصقول",
+    }),
   },
   {
-    title: { en: "Protected execution", ar: "تنفيذ مع حماية كاملة" },
+    title: { en: "We polish", ar: "نجلي ونلمّع" },
     body: {
-      en: "Furniture wrapped, edges masked, dust captured at source by HEPA extraction.",
-      ar: "تغليف الأثاث وحماية الحواف وسحب الغبار من مصدره بفلاتر HEPA.",
+      en: "Our machines grind and polish the floor step by step.",
+      ar: "معداتنا تجلي الأرضية وتلمّعها خطوة بخطوة.",
     },
+    media: photo("machine-in-hall", {
+      en: "A technician driving a floor machine across a large shiny hall",
+      ar: "فني يقود معدة جلي في قاعة كبيرة لامعة",
+    }),
   },
   {
-    title: { en: "Handover & warranty", ar: "التسليم والضمان" },
+    title: { en: "Enjoy the shine", ar: "استمتع باللمعان" },
     body: {
-      en: "We walk the finish with you, log gloss readings, and register your 90-day warranty.",
-      ar: "نستعرض النتيجة معك، ونسجّل قياسات اللمعان، ونفعّل ضمان الـ٩٠ يومًا.",
+      en: "You walk on it the same day. The shine is guaranteed for 90 days.",
+      ar: "تمشي عليها في نفس اليوم. واللمعان مضمون ٩٠ يومًا.",
     },
+    media: photo("salon-marble", {
+      en: "A bright white marble floor reflecting the room like a mirror",
+      ar: "أرضية رخام بيضاء لامعة تعكس الغرفة كالمرآة",
+    }),
+  },
+];
+
+/** Where we polish — one picture each. */
+export const places: { id: string; title: Bi; media: MediaSlot }[] = [
+  {
+    id: "villas",
+    title: { en: "Villas & homes", ar: "الفلل والمنازل" },
+    media: photo("villa-living", {
+      en: "A bright living room with a glossy marble floor",
+      ar: "غرفة معيشة مشرقة بأرضية رخام لامعة",
+    }),
+  },
+  {
+    id: "mosques",
+    title: { en: "Mosques", ar: "المساجد" },
+    media: photo("mosque-gold-hall", {
+      en: "A mosque prayer hall with a mirror-shine marble floor",
+      ar: "قاعة صلاة في مسجد بأرضية رخام لامعة كالمرآة",
+    }),
+  },
+  {
+    id: "offices",
+    title: { en: "Offices & lobbies", ar: "المكاتب والمداخل" },
+    media: photo("lobby-office", {
+      en: "A company lobby with a polished stone floor",
+      ar: "بهو شركة بأرضية حجرية مصقولة",
+    }),
+  },
+  {
+    id: "hotels",
+    title: { en: "Hotels", ar: "الفنادق" },
+    media: photo("lobby-grand", {
+      en: "A grand hotel lobby with shining marble",
+      ar: "بهو فندق فخم برخام لامع",
+    }),
+  },
+  {
+    id: "showrooms",
+    title: { en: "Showrooms & shops", ar: "المعارض والمحلات" },
+    media: photo("showroom-white", {
+      en: "A white showroom with a reflective floor",
+      ar: "معرض أبيض بأرضية عاكسة",
+    }),
+  },
+  {
+    id: "warehouses",
+    title: { en: "Warehouses", ar: "المستودعات" },
+    media: photo("warehouse-shine", {
+      en: "A large warehouse floor polished to a shine",
+      ar: "أرضية مستودع كبير مصقولة حتى اللمعان",
+    }),
   },
 ];

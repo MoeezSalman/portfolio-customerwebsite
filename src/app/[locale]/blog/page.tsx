@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { isLocale, type Locale } from "@/i18n/config";
+import { isLocale, localePath, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { posts } from "@/content/posts";
-import { PageHero, Section } from "@/components/ui/PageHero";
-import { PostLead, PostRow } from "@/components/ui/Rows";
+import { formatDate, localizeNumber } from "@/lib/utils";
+import { CoverHero } from "@/components/heroes/CoverHero";
+import { Section } from "@/components/ui/Section";
+import { PhotoTile } from "@/components/ui/PhotoTile";
+import { Button } from "@/components/ui/Button";
+import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { CtaSection } from "@/components/sections/CtaSection";
+import { WordBand } from "@/components/motion/WordBand";
 
 export async function generateMetadata({
   params,
@@ -13,10 +18,10 @@ export async function generateMetadata({
   const { locale } = await params;
   const ar = locale === "ar";
   return {
-    title: ar ? "المدونة" : "Journal",
+    title: ar ? "نصائح" : "Tips",
     description: ar
-      ? "مقالات عملية عن صيانة المنازل في الرياض: التلميع مقابل الطلاء، صيانة التكييف، كشف التسربات، والعناية بالرخام."
-      : "Practical writing on property maintenance in Riyadh: polishing vs coating, AC servicing, leak detection and marble care.",
+      ? "نصائح بسيطة بالصور للحفاظ على لمعان أرضيتك."
+      : "Simple picture tips for keeping your floor shiny.",
     alternates: { canonical: `/${locale}/blog` },
   };
 }
@@ -26,38 +31,46 @@ export default async function BlogPage({ params }: PageProps<"/[locale]/blog">) 
   if (!isLocale(locale)) notFound();
   const l = locale as Locale;
   const t = getDictionary(l);
-
-  const [lead, ...rest] = [...posts].sort((a, b) => b.date.localeCompare(a.date));
+  const [lead, ...rest] = posts;
 
   return (
     <>
-      <PageHero
+      <CoverHero
         locale={l}
-        eyebrow={t("sectionBlog")}
-        title={t("sectionBlogTitle")}
-        crumbs={[{ label: l === "ar" ? "المدونة" : "Journal" }]}
-        media={rest[1].media}
-        caption={rest[1].category[l]}
-        lead={
-          l === "ar"
-            ? "كتابات من الموقع، لا محتوى تسويقي. بعضها سيوفّر عليك المال بألا توظّفنا أصلًا."
-            : "Written from site, not from a marketing brief. Some of it will save you money by not hiring us at all."
-        }
-      />
+        media={lead.media}
+        eyebrow={`${t("sectionBlog")} · ${formatDate(lead.date, l)}`}
+        title={lead.title[l]}
+        lead={lead.excerpt[l]}
+        crumbs={[{ label: t("sectionBlog") }]}
+      >
+        <Button href={localePath(l, `/blog/${lead.slug}`)} className="mt-6" arrow>
+          {t("readMore")} · {localizeNumber(lead.readingMinutes, l)} {t("minRead")}
+        </Button>
+      </CoverHero>
 
       <Section>
         <div className="container-x">
-          <PostLead post={lead} locale={l} />
-          <div className="mt-16">
+          <RevealGroup as="ul" className="grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3" stagger={0.08}>
             {rest.map((p) => (
-              <PostRow key={p.slug} post={p} locale={l} />
+              <RevealItem key={p.slug} as="li">
+                <PhotoTile
+                  slot={p.media}
+                  locale={l}
+                  title={p.title[l]}
+                  sub={p.excerpt[l]}
+                  badge={`${localizeNumber(p.readingMinutes, l)} ${t("minRead")}`}
+                  href={localePath(l, `/blog/${p.slug}`)}
+                  aspect="aspect-[4/5]"
+                  sizes="(max-width: 640px) 100vw, 33vw"
+                />
+              </RevealItem>
             ))}
-            <div className="border-t border-line" />
-          </div>
+          </RevealGroup>
         </div>
       </Section>
 
-      <CtaSection locale={l} media={lead.media} />
+      <WordBand locale={l} set="promise" />
+      <CtaSection locale={l} media={posts[2].media} />
     </>
   );
 }

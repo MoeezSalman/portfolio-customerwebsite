@@ -1,56 +1,67 @@
 import { localePath, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { projects } from "@/content/projects";
+import { cn } from "@/lib/utils";
+import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { PhotoTile } from "@/components/ui/PhotoTile";
 import { Button } from "@/components/ui/Button";
-import { Section } from "@/components/ui/PageHero";
-import { ProjectRow, LinkRow } from "@/components/ui/Rows";
+import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 
 /**
- * One featured case study in full, then the rest as a plain link list —
- * the reader gets the depth of one project without a wall of thumbnails.
+ * Finished floors as a photo wall. The first project is a wide banner;
+ * the rest tile beneath it. Name and district only.
  */
-export function ProjectsSection({ locale }: { locale: Locale }) {
+export function ProjectsSection({
+  locale,
+  limit,
+  heading = true,
+  exclude,
+  className,
+}: {
+  locale: Locale;
+  limit?: number;
+  heading?: boolean;
+  exclude?: string;
+  className?: string;
+}) {
   const t = getDictionary(locale);
-  const [featured, ...rest] = projects;
+  let list = exclude ? projects.filter((p) => p.slug !== exclude) : projects;
+  if (limit) list = list.slice(0, limit);
+  // Let the first project span two columns only when that still fills every row.
+  const bigFirst = (list.length + 1) % 3 === 0;
 
   return (
-    <Section id="projects">
+    <Section className={className}>
       <div className="container-x">
-        <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-          <SectionHeading
-            eyebrow={t("sectionProjects")}
-            title={t("sectionProjectsTitle")}
-            lead={
-              locale === "ar"
-                ? "أرقام حقيقية من مشاريع حقيقية — بما في ذلك ما لم يسر كما خُطط له وكيف عالجناه."
-                : "Real numbers from real jobs — including what did not go to plan and how we handled it."
-            }
-          />
-          <Button
-            href={localePath(locale, "/projects")}
-            variant="outline"
-            className="shrink-0"
-            arrow
-          >
-            {t("viewAll")}
-          </Button>
-        </div>
+        {heading && (
+          <div className="mb-8 flex flex-col gap-6 md:mb-10 md:flex-row md:items-end md:justify-between">
+            <SectionHeading eyebrow={t("sectionProjects")} title={t("sectionProjectsTitle")} />
+            {limit && (
+              <Button href={localePath(locale, "/projects")} variant="outline" arrow>
+                {t("viewAll")}
+              </Button>
+            )}
+          </div>
+        )}
 
-        <div className="mt-12">
-          <ProjectRow project={featured} locale={locale} priority />
-        </div>
-
-        <div className="grid gap-x-12 border-t border-line md:grid-cols-2">
-          {rest.slice(0, 4).map((p) => (
-            <LinkRow
-              key={p.slug}
-              href={localePath(locale, `/projects/${p.slug}`)}
-              title={p.title[locale]}
-              meta={`${p.sector[locale]} · ${p.district[locale]} · ${p.year}`}
-            />
+        <RevealGroup as="ul" className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3" stagger={0.06}>
+          {list.map((p, i) => (
+            <RevealItem key={p.slug} as="li" className={cn(i === 0 && bigFirst && "sm:col-span-2")}>
+              <PhotoTile
+                slot={p.media}
+                locale={locale}
+                title={p.title[locale]}
+                sub={`${p.place[locale]} · ${p.district[locale]}`}
+                badge={p.facts[0].value[locale]}
+                href={localePath(locale, `/projects/${p.slug}`)}
+                aspect={i === 0 && bigFirst ? "aspect-[4/3] sm:aspect-[2/1]" : "aspect-[4/3]"}
+                sizes={i === 0 && bigFirst ? "(max-width: 640px) 100vw, 66vw" : "(max-width: 640px) 100vw, 33vw"}
+                titleSize={i === 0 && bigFirst ? "lg" : "md"}
+              />
+            </RevealItem>
           ))}
-        </div>
+        </RevealGroup>
       </div>
     </Section>
   );

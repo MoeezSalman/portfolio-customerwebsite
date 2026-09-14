@@ -3,10 +3,13 @@ import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { faqs, faqGroups } from "@/content/faq";
-import { getService } from "@/content/services";
-import { PageHero, Section } from "@/components/ui/PageHero";
+import { services } from "@/content/services";
+import { Section, Crumbs } from "@/components/ui/Section";
 import { Accordion } from "@/components/ui/Accordion";
 import { Eyebrow } from "@/components/ui/SectionHeading";
+import { Figure } from "@/components/graphics/Figure";
+import { Marquee } from "@/components/motion/Marquee";
+import { SplitText } from "@/components/motion/SplitText";
 import { Reveal } from "@/components/motion/Reveal";
 import { CtaSection } from "@/components/sections/CtaSection";
 
@@ -18,78 +21,73 @@ export async function generateMetadata({
   return {
     title: ar ? "الأسئلة الشائعة" : "FAQ",
     description: ar
-      ? "إجابات مباشرة عن الأسعار والحجز والضمان ونطاق الخدمة وما يحدث فعليًا في يوم التنفيذ."
-      : "Straight answers on pricing, booking, warranty, coverage and what actually happens on the day.",
+      ? "إجابات سريعة عن السعر والعمل والضمان."
+      : "Quick answers about price, the work and the guarantee.",
     alternates: { canonical: `/${locale}/faq` },
   };
 }
 
+/**
+ * Photo-ribbon hero — a centred title over a slow, endless strip of floor
+ * photographs. Used on the FAQ page.
+ */
 export default async function FaqPage({ params }: PageProps<"/[locale]/faq">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const l = locale as Locale;
   const t = getDictionary(l);
-
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((f) => ({
-      "@type": "Question",
-      name: f.q[l],
-      acceptedAnswer: { "@type": "Answer", text: f.a[l] },
-    })),
-  };
+  const ribbon = services.map((s) => s.media);
 
   return (
     <>
-      <PageHero
-        locale={l}
-        eyebrow={t("sectionFaq")}
-        title={t("sectionFaqTitle")}
-        crumbs={[{ label: l === "ar" ? "الأسئلة الشائعة" : "FAQ" }]}
-        media={getService("marble-restoration")!.media}
-        caption={`${faqs.length} ${l === "ar" ? "سؤالًا" : "questions"}`}
-        lead={
-          l === "ar"
-            ? "الأسئلة التي تُطرح علينا فعليًا، بإجابات مباشرة — بما فيها تلك التي لا تصبّ في مصلحتنا."
-            : "The questions we actually get asked, answered directly — including the ones where the honest answer does not favour us."
-        }
-      />
+      <section className="relative overflow-hidden pt-24 md:pt-28">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="aurora" />
+        </div>
+        <div className="container-x relative">
+          <Reveal variant="fade" duration={0.5}>
+            <Crumbs locale={l} crumbs={[{ label: t("sectionFaq") }]} className="justify-center" />
+          </Reveal>
+          <div className="mx-auto mt-8 max-w-2xl text-center md:mt-10">
+            <Eyebrow className="justify-center">{t("sectionFaq")}</Eyebrow>
+            <SplitText
+              as="h1"
+              text={t("sectionFaqTitle")}
+              className="mt-4 font-display text-[clamp(2.4rem,5.5vw,4.6rem)] leading-[1] font-bold tracking-tight text-chalk"
+            />
+          </div>
+        </div>
+
+        <Reveal variant="fade" delay={0.2} className="mt-8 md:mt-10">
+          <Marquee speed={60} pauseOnHover={false}>
+            {ribbon.map((m) => (
+              <Figure
+                key={m.id}
+                slot={m}
+                locale={l}
+                sizes="20vw"
+                className="me-3 aspect-[4/3] w-[42vw] rounded-card sm:w-[28vw] md:me-4 lg:w-[18vw]"
+              />
+            ))}
+          </Marquee>
+        </Reveal>
+      </section>
 
       <Section>
-        <div className="container-x flex flex-col gap-16">
-          {faqGroups.map((group, gi) => {
-            const items = faqs
-              .filter((f) => f.group.en === group.en)
-              .map((f) => ({ q: f.q[l], a: f.a[l] }));
-
-            return (
-              <Reveal key={group.en} variant="up" delay={gi * 0.05}>
-                <div className="grid gap-8 border-t border-chalk/80 pt-8 lg:grid-cols-12">
-                  <div className="lg:col-span-4">
-                    <Eyebrow accent={gi % 2 === 0 ? "gold" : "aqua"}>
-                      {String(gi + 1).padStart(2, "0")}
-                    </Eyebrow>
-                    <h2 className="mt-4 font-display text-[1.5rem] font-bold text-chalk">
-                      {group[l]}
-                    </h2>
-                  </div>
-                  <div className="lg:col-span-8">
-                    <Accordion items={items} defaultOpen={gi === 0 ? 0 : null} />
-                  </div>
-                </div>
-              </Reveal>
-            );
-          })}
+        <div className="container-x mx-auto max-w-4xl flex flex-col gap-10">
+          {faqGroups.map((g) => (
+            <Reveal key={g.en} variant="up">
+              <Eyebrow className="mb-4">{g[l]}</Eyebrow>
+              <Accordion
+                items={faqs.filter((f) => f.group.en === g.en).map((f) => ({ q: f.q[l], a: f.a[l] }))}
+                defaultOpen={0}
+              />
+            </Reveal>
+          ))}
         </div>
       </Section>
 
-      <CtaSection locale={l} media={getService("plumbing")!.media} />
-
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-      />
+      <CtaSection locale={l} media={services[2].gallery[1]} />
     </>
   );
 }

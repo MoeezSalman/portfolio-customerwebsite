@@ -17,9 +17,9 @@ export function Footer({ locale }: { locale: Locale }) {
   );
 
   return (
-    <footer className="relative mt-32 border-t border-line bg-ink-2">
+    <footer className="relative bg-ink-2">
       {/* Oversized wordmark ribbon. */}
-      <div className="border-b border-line/70 py-8">
+      <div className="py-8">
         <Marquee speed={44}>
           {Array.from({ length: 4 }).map((_, i) => (
             <span
@@ -35,7 +35,7 @@ export function Footer({ locale }: { locale: Locale }) {
         </Marquee>
       </div>
 
-      <div className="container-x grid gap-14 py-16 md:grid-cols-2 lg:grid-cols-12">
+      <div className="container-x grid gap-10 py-12 md:grid-cols-2 md:py-14 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <Logo name={site.name[locale]} tagline={locale === "ar" ? "الرياض" : "Riyadh"} />
           <p className="mt-6 max-w-sm leading-relaxed text-fog">{t("footerBlurb")}</p>
@@ -47,7 +47,7 @@ export function Footer({ locale }: { locale: Locale }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={s.label}
-                className="grid size-10 place-items-center rounded-full border border-line-2 text-fog transition-colors duration-300 hover:border-gold/60 hover:text-gold"
+                className="grid size-10 place-items-center rounded-full bg-ink-3 text-mist transition-colors duration-300 hover:bg-gold hover:text-chalk"
               >
                 <Icon name={s.icon as IconName} className="size-[1.1rem]" />
               </a>
@@ -124,7 +124,7 @@ export function Footer({ locale }: { locale: Locale }) {
         </div>
       </div>
 
-      <div className="container-x flex flex-col gap-3 border-t border-line py-7 text-[0.8rem] text-fog sm:flex-row sm:items-center sm:justify-between">
+      <div className="container-x flex flex-col gap-3 py-6 text-[0.8rem] text-fog sm:flex-row sm:items-center sm:justify-between">
         <p>
           © {year} {site.legalName[locale]}. {t("rights")}
         </p>

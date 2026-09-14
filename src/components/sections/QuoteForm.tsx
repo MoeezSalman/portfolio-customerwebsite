@@ -104,7 +104,7 @@ export function QuoteForm({ locale }: { locale: Locale }) {
   };
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-line bg-white/55 p-7 md:p-10">
+    <div className="relative overflow-hidden rounded-card bg-white/80 p-6 backdrop-blur md:p-9">
       <AnimatePresence mode="wait">
         {sent ? (
           <motion.div
@@ -216,7 +216,7 @@ export function QuoteForm({ locale }: { locale: Locale }) {
 /* ----------------------------- inputs ----------------------------- */
 
 const inputBase =
-  "w-full rounded-xl border bg-white/80 px-4 py-3.5 text-[0.95rem] text-chalk placeholder:text-fog/60 transition-colors duration-200 outline-none focus:border-chalk";
+  "w-full rounded-[1rem] border bg-white px-4 py-3.5 text-[0.95rem] text-chalk placeholder:text-fog/60 transition-colors duration-200 outline-none focus:border-chalk";
 
 function Field({
   label,

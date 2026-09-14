@@ -3,12 +3,15 @@ import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { coverageNote } from "@/content/areas";
-import { getProject } from "@/content/projects";
-import { PageHero, Section } from "@/components/ui/PageHero";
+import { places, site } from "@/content/site";
+import { Section, Crumbs } from "@/components/ui/Section";
 import { CoverageMap } from "@/components/sections/CoverageMap";
-import { Reveal } from "@/components/motion/Reveal";
-import { Icon } from "@/components/graphics/Icon";
+import { PlacesSection } from "@/components/sections/PlacesSection";
 import { CtaSection } from "@/components/sections/CtaSection";
+import { WordBand } from "@/components/motion/WordBand";
+import { Reveal } from "@/components/motion/Reveal";
+import { SplitText } from "@/components/motion/SplitText";
+import { Icon } from "@/components/graphics/Icon";
 
 export async function generateMetadata({
   params,
@@ -18,12 +21,16 @@ export async function generateMetadata({
   return {
     title: ar ? "نطاق الخدمة" : "Coverage",
     description: ar
-      ? "نغطي جميع أحياء الرياض — الياسمين، النرجس، حطين، الملقا، الصحافة، العليا، النخيل، الدرعية وأكثر، مع استجابة طارئة خلال أربع ساعات."
-      : "We cover every Riyadh district — Al Yasmin, Al Narjis, Hittin, Al Malqa, Al Sahafa, Olaya, An Nakheel, Diriyah and more, with four-hour emergency response.",
+      ? "نلمّع الأرضيات في جميع أحياء الرياض — الياسمين، النرجس، حطين، الملقا، الصحافة، العليا، الدرعية وأكثر."
+      : "We polish floors in every Riyadh district — Al Yasmin, Al Narjis, Hittin, Al Malqa, Al Sahafa, Olaya, Diriyah and more.",
     alternates: { canonical: `/${locale}/areas` },
   };
 }
 
+/**
+ * Map hero — the map IS the masthead. The title floats on a card over its
+ * corner; the district list sits beside it.
+ */
 export default async function AreasPage({ params }: PageProps<"/[locale]/areas">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
@@ -32,37 +39,55 @@ export default async function AreasPage({ params }: PageProps<"/[locale]/areas">
 
   return (
     <>
-      <PageHero
-        locale={l}
-        accent="aqua"
-        eyebrow={t("sectionCoverage")}
-        title={t("sectionCoverageTitle")}
-        crumbs={[{ label: l === "ar" ? "نطاق الخدمة" : "Coverage" }]}
-        media={getProject("olaya-office-tower-amc")!.media}
-        caption={l === "ar" ? "الرياض" : "Riyadh"}
-        lead={coverageNote[l]}
-      />
-
-      <Section>
+      <section className="relative pt-24 md:pt-28">
         <div className="container-x">
-          <CoverageMap locale={l} />
-
-          <Reveal variant="up" className="mt-14">
-            <div className="flex flex-col gap-4 border-t border-chalk/80 pt-6 sm:flex-row sm:items-start sm:gap-8">
-              <span className="grid size-11 shrink-0 place-items-center rounded-full border border-aqua/40 text-aqua">
-                <Icon name="pin" className="size-5" />
-              </span>
-              <p className="max-w-2xl leading-relaxed text-fog">
-                {l === "ar"
-                  ? "لا ترى حيّك في القائمة؟ اتصل بنا على أي حال — نغطي الرياض بالكامل، والقائمة أعلاه تعرض الأحياء التي نعمل فيها يوميًا فقط."
-                  : "Not seeing your district? Call anyway — we cover all of Riyadh, and the list above only shows the areas we are in daily."}
-              </p>
-            </div>
+          <Reveal variant="fade" duration={0.5}>
+            <Crumbs locale={l} crumbs={[{ label: t("sectionCoverage") }]} className="mb-4" />
           </Reveal>
+          <CoverageMap
+            locale={l}
+            overlay={
+              <div className="glass rounded-card p-5 md:p-6">
+                <span className="inline-flex items-center gap-2.5 text-[0.7rem] font-semibold tracking-[0.22em] text-aqua uppercase">
+                  <span className="h-px w-8 bg-aqua/60" />
+                  {t("sectionCoverage")}
+                </span>
+                <SplitText
+                  as="h1"
+                  text={t("sectionCoverageTitle")}
+                  className="mt-2 font-display text-[clamp(1.8rem,3.5vw,2.8rem)] leading-[1.04] font-bold tracking-tight text-chalk"
+                />
+                <p className="mt-3 text-[0.9rem] leading-relaxed text-mist">{coverageNote[l]}</p>
+                <a
+                  href={`tel:${site.phoneIntl}`}
+                  className="mt-4 inline-flex items-center gap-2 font-display text-[0.9rem] font-semibold text-chalk"
+                >
+                  <Icon name="phone" className="size-4 text-gold" />
+                  <span dir="ltr">{site.phone}</span>
+                </a>
+              </div>
+            }
+          />
         </div>
-      </Section>
+      </section>
 
-      <CtaSection locale={l} media={getProject("hittin-pool-leak")!.media} />
+      <WordBand locale={l} set="places" tone="gold" />
+      <PlacesSection locale={l} />
+      <Section tight className="container-x pb-4">
+        <Reveal variant="up">
+          <div className="flex flex-col gap-4 rounded-card bg-ink-2/70 p-6 sm:flex-row sm:items-center sm:gap-6">
+            <span className="grid size-11 shrink-0 place-items-center rounded-full bg-aqua text-white">
+              <Icon name="pin" className="size-5" />
+            </span>
+            <p className="leading-relaxed text-mist">
+              {l === "ar"
+                ? "لا ترى حيّك؟ اتصل بنا على أي حال — نغطي الرياض كلها."
+                : "Not seeing your district? Call anyway — we cover all of Riyadh."}
+            </p>
+          </div>
+        </Reveal>
+      </Section>
+      <CtaSection locale={l} media={places[1].media} />
     </>
   );
 }

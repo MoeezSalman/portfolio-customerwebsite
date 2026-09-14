@@ -17,12 +17,18 @@ export function Header({ locale }: { locale: Locale }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  // Pages whose masthead is a dark photograph mark it with data-hero-dark;
+  // the bar then draws in white until the user scrolls off the hero.
+  const [onDark, setOnDark] = useState(false);
 
   const { scrollY } = useScroll();
   useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 28));
 
-  // Close the drawer whenever the route changes.
-  useEffect(() => setOpen(false), [pathname]);
+  // Close the drawer whenever the route changes, and re-check the hero.
+  useEffect(() => {
+    setOpen(false);
+    setOnDark(!!document.querySelector("[data-hero-dark]"));
+  }, [pathname]);
 
   // Lock body scroll behind the drawer.
   useEffect(() => {
@@ -43,16 +49,16 @@ export function Header({ locale }: { locale: Locale }) {
     return href === "/" ? pathname === full : pathname.startsWith(full);
   };
 
-  const desktopNav = nav.filter((n) => n.href !== "/" && n.href !== "/contact");
+  const desktopNav = nav.filter((n) => n.href !== "/" && n.href !== "/contact" && n.href !== "/about");
+  const light = onDark && !scrolled;
 
   return (
     <>
       <header
         className={cn(
           "fixed inset-x-0 top-0 z-[100] transition-all duration-500 ease-[var(--ease-expo)]",
-          scrolled
-            ? "border-b border-line/80 bg-ink/78 py-2.5 backdrop-blur-xl"
-            : "border-b border-transparent py-5",
+          scrolled ? "bg-ink/85 py-2.5 backdrop-blur-xl" : "py-5",
+          light && "text-white",
         )}
       >
         <div className="container-x flex items-center justify-between gap-6">
@@ -61,7 +67,7 @@ export function Header({ locale }: { locale: Locale }) {
             aria-label={site.name[locale]}
             className="shrink-0"
           >
-            <Logo name={site.name[locale]} tagline={locale === "ar" ? "الرياض" : "Riyadh"} />
+            <Logo name={site.name[locale]} tagline={locale === "ar" ? "الرياض" : "Riyadh"} light={light} />
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex">
@@ -72,15 +78,15 @@ export function Header({ locale }: { locale: Locale }) {
                 className={cn(
                   "relative rounded-full px-3.5 py-2 text-[0.86rem] font-medium transition-colors duration-300",
                   isActive(item.href)
-                    ? "text-gold"
-                    : "text-fog hover:text-chalk",
+                    ? light ? "text-gold-3" : "text-gold"
+                    : light ? "text-white/80 hover:text-white" : "text-fog hover:text-chalk",
                 )}
               >
                 {item.label[locale]}
                 {isActive(item.href) && (
                   <motion.span
                     layoutId="nav-pill"
-                    className="absolute inset-0 -z-10 rounded-full bg-gold/10 ring-1 ring-gold/25"
+                    className={cn("absolute inset-0 -z-10 rounded-full", light ? "bg-white/12" : "bg-gold/10 ring-1 ring-gold/25")}
                     transition={{ type: "spring", stiffness: 380, damping: 32 }}
                   />
                 )}
@@ -92,7 +98,12 @@ export function Header({ locale }: { locale: Locale }) {
             <Link
               href={swapLocale()}
               aria-label={t("switchLangAria")}
-              className="hidden h-10 items-center gap-2 rounded-full border border-line-2 px-4 text-[0.82rem] font-semibold text-mist transition-colors duration-300 hover:border-gold/60 hover:text-gold sm:inline-flex"
+              className={cn(
+                "hidden h-10 items-center gap-2 rounded-full border px-4 text-[0.82rem] font-semibold transition-colors duration-300 sm:inline-flex",
+                light
+                  ? "border-white/30 text-white hover:bg-white/15"
+                  : "border-line-2 text-mist hover:border-gold/60 hover:text-gold",
+              )}
             >
               <span className="size-1.5 rounded-full bg-aqua" />
               {t("switchLang")}
@@ -101,7 +112,7 @@ export function Header({ locale }: { locale: Locale }) {
             <Button
               href={localePath(locale, "/quote")}
               size="sm"
-              className="hidden md:inline-flex"
+              className={cn("hidden md:inline-flex", light && "bg-gold text-chalk hover:bg-white")}
               arrow
             >
               {t("getQuoteShort")}
@@ -111,7 +122,10 @@ export function Header({ locale }: { locale: Locale }) {
               type="button"
               onClick={() => setOpen(true)}
               aria-label={t("menu")}
-              className="grid size-10 place-items-center rounded-full border border-line-2 text-chalk transition-colors hover:border-gold/60 hover:text-gold lg:hidden"
+              className={cn(
+                "grid size-10 place-items-center rounded-full border transition-colors lg:hidden",
+                light ? "border-white/30 text-white" : "border-line-2 text-chalk hover:border-gold/60 hover:text-gold",
+              )}
             >
               <Icon name="menu" className="size-5" />
             </button>
@@ -161,14 +175,14 @@ function MobileDrawer({
       />
 
       <motion.div
-        className="absolute inset-y-0 end-0 flex w-full max-w-sm flex-col border-s border-line bg-ink-2"
+        className="absolute inset-y-0 end-0 flex w-full max-w-sm flex-col bg-ink-2"
         variants={{
           hidden: { x: "100%" },
           show: { x: 0 },
         }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="flex items-center justify-between border-b border-line px-6 py-5">
+        <div className="flex items-center justify-between px-6 py-5">
           <Logo name={site.name[locale]} />
           <button
             type="button"
@@ -196,8 +210,8 @@ function MobileDrawer({
                 <Link
                   href={localePath(locale, item.href)}
                   className={cn(
-                    "flex items-center justify-between border-b border-line/70 py-4 font-display text-xl font-semibold transition-colors",
-                    isActive(item.href) ? "text-gold" : "text-chalk",
+                    "flex items-center justify-between rounded-card px-4 py-3.5 font-display text-xl font-semibold transition-colors",
+                    isActive(item.href) ? "bg-gold/15 text-gold" : "text-chalk hover:bg-black/[0.04]",
                   )}
                 >
                   {item.label[locale]}
@@ -208,7 +222,7 @@ function MobileDrawer({
           </ul>
         </nav>
 
-        <div className="flex flex-col gap-3 border-t border-line px-6 py-6">
+        <div className="flex flex-col gap-3 px-6 py-6">
           <Button href={localePath(locale, "/quote")} size="md" arrow>
             {t("getQuote")}
           </Button>

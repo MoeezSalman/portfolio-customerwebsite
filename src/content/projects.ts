@@ -1,265 +1,207 @@
 import type { Bi } from "@/i18n/config";
-import { slot, type MediaSlot } from "@/lib/media";
+import { photo, type MediaSlot } from "@/lib/media";
 
+/**
+ * Six recent jobs. Each one is told in pictures: the finished floor, a
+ * before/after pair, and three plain facts.
+ */
 export type Project = {
   slug: string;
   title: Bi;
-  client: Bi;
-  sector: Bi;
-  year: string;
+  place: Bi;
   district: Bi;
+  year: string;
+  /** slugs into content/services.ts */
   services: string[];
-  area: Bi;
-  duration: Bi;
+  /** One or two plain sentences. */
   summary: Bi;
-  challenge: Bi;
-  approach: Bi;
-  outcome: Bi;
-  metrics: { value: Bi; label: Bi }[];
+  facts: { value: Bi; label: Bi }[];
   media: MediaSlot;
+  before: MediaSlot;
+  gallery: MediaSlot[];
   accent: "gold" | "aqua";
 };
 
 export const projects: Project[] = [
   {
-    slug: "al-yasmin-villa-restoration",
-    title: {
-      en: "Villa Floor Restoration, Al Yasmin",
-      ar: "ترميم أرضيات فيلا، حي الياسمين",
-    },
-    client: { en: "Private residence", ar: "مسكن خاص" },
-    sector: { en: "Residential", ar: "سكني" },
-    year: "2025",
+    slug: "yasmin-villa",
+    title: { en: "Family villa", ar: "فيلا عائلية" },
+    place: { en: "Private villa", ar: "فيلا خاصة" },
     district: { en: "Al Yasmin", ar: "الياسمين" },
-    services: ["floor-polishing", "marble-restoration"],
-    area: { en: "820 m²", ar: "٨٢٠ م²" },
-    duration: { en: "6 days", ar: "٦ أيام" },
+    year: "2026",
+    services: ["marble-polishing", "stairs-countertops"],
     summary: {
-      en: "Eleven-year-old Crema Marfil throughout the ground floor, dulled by abrasive cleaning and etched around the majlis serving area.",
-      ar: "رخام كريما مارفيل عمره أحد عشر عامًا في الطابق الأرضي بالكامل، بهت بسبب التنظيف الكاشط وتآكل حول منطقة الضيافة في المجلس.",
+      en: "The whole ground floor was dull after twelve years. We polished 320 m² of marble and the main staircase in two days.",
+      ar: "الدور الأرضي كله كان باهتًا بعد اثني عشر عامًا. جلينا ٣٢٠ م² من الرخام والدرج الرئيسي في يومين.",
     },
-    challenge: {
-      en: "The owner had been sold a topical 'polish' twice before. Both coatings had worn unevenly, leaving a patchwork of gloss levels and a plastic-looking film in the traffic lanes.",
-      ar: "سبق أن بيع للمالك «تلميع» سطحي مرتين. وقد تآكلت الطبقتان بشكل غير متساوٍ، فتركتا تفاوتًا واضحًا في اللمعان وطبقة تبدو بلاستيكية في ممرات الحركة.",
-    },
-    approach: {
-      en: "We stripped both coatings chemically, then re-cut the stone with metal-bond diamonds to get below the etching. Seven honing passes took it to 3000 grit before crystallisation. Lippage between slabs at the majlis threshold was ground flat rather than disguised.",
-      ar: "أزلنا الطبقتين كيميائيًا، ثم أعدنا قصّ الحجر بأقراص ألماسية معدنية للنزول تحت مستوى التآكل. سبع مراحل تنعيم وصلت به إلى ٣٠٠٠ حبيبة قبل التبلور. أما فروق الارتفاع بين الألواح عند مدخل المجلس فقد جُلِيَت حتى الاستواء بدل إخفائها.",
-    },
-    outcome: {
-      en: "Uniform 88 GU across all ground-floor rooms, verified at 32 measurement points. The owner moved back in the same evening the sealer cured.",
-      ar: "لمعان موحّد بقيمة ٨٨ وحدة في جميع غرف الطابق الأرضي، موثّق عند ٣٢ نقطة قياس. وعاد المالك للسكن في المساء نفسه بعد جفاف العازل.",
-    },
-    metrics: [
-      { value: { en: "32 → 88 GU", ar: "٣٢ ← ٨٨ وحدة" }, label: { en: "Gloss level", ar: "درجة اللمعان" } },
-      { value: { en: "820 m²", ar: "٨٢٠ م²" }, label: { en: "Area restored", ar: "المساحة المعالجة" } },
-      { value: { en: "0", ar: "٠" }, label: { en: "Tiles replaced", ar: "بلاطة مستبدلة" } },
+    facts: [
+      { value: { en: "320 m²", ar: "٣٢٠ م²" }, label: { en: "Marble", ar: "رخام" } },
+      { value: { en: "2 days", ar: "يومان" }, label: { en: "Time", ar: "المدة" } },
+      { value: { en: "88", ar: "٨٨" }, label: { en: "Gloss reading", ar: "درجة اللمعان" } },
     ],
-    media: slot("project-yasmin", "marble", {
-      en: "Villa lounge with a full-height marble feature wall and fireplace",
-      ar: "صالة فيلا بجدار رخامي بكامل الارتفاع ومدفأة",
-    }, "/images/project-yasmin.jpg"),
+    media: photo("villa-living", {
+      en: "The finished living room with a mirror-shine marble floor",
+      ar: "غرفة المعيشة بعد الانتهاء بأرضية رخام لامعة كالمرآة",
+    }),
+    before: photo("marble-stained", {
+      en: "The dull, stained marble before polishing",
+      ar: "الرخام الباهت المبقّع قبل الجلي",
+    }),
+    gallery: [
+      photo("villa-entrance", { en: "The entrance hall and stairs after polishing", ar: "مدخل الفيلا والدرج بعد التلميع" }),
+      photo("villa-lounge", { en: "The family lounge with its polished floor", ar: "صالة العائلة بأرضيتها المصقولة" }),
+    ],
     accent: "gold",
   },
   {
-    slug: "olaya-office-tower-amc",
-    title: {
-      en: "Office Tower Maintenance Contract, Olaya",
-      ar: "عقد صيانة برج مكاتب، العليا",
-    },
-    client: { en: "Commercial landlord", ar: "مالك عقار تجاري" },
-    sector: { en: "Commercial", ar: "تجاري" },
-    year: "2024 — ongoing",
-    district: { en: "Olaya", ar: "العليا" },
-    services: ["annual-contracts", "ac-maintenance", "electrical", "plumbing"],
-    area: { en: "14 floors", ar: "١٤ طابقًا" },
-    duration: { en: "Rolling contract", ar: "عقد مستمر" },
-    summary: {
-      en: "A fourteen-floor tower running fully reactive maintenance, with tenant complaints averaging forty a month and no asset records at all.",
-      ar: "برج من أربعة عشر طابقًا يعمل بصيانة رد الفعل فقط، بمعدل أربعين شكوى مستأجر شهريًا ودون أي سجلات للأصول.",
-    },
-    challenge: {
-      en: "Nobody knew how old the AC plant was, which riser fed which floor, or why the sixth floor lost power every Thursday. Every callout started from zero.",
-      ar: "لا أحد يعرف عمر وحدات التكييف، ولا أي خط تغذية يخدم أي طابق، ولا سبب انقطاع الكهرباء عن الطابق السادس كل خميس.",
-    },
-    approach: {
-      en: "We built an asset register floor by floor over three weeks, thermally imaged every distribution board, and put the whole building on a quarterly service calendar with priority dispatch for the landlord.",
-      ar: "بنينا سجل أصول طابقًا بطابق على مدى ثلاثة أسابيع، وصوّرنا كل لوحة توزيع حراريًا، ووضعنا المبنى بأكمله على تقويم صيانة ربع سنوي مع أولوية استجابة للمالك.",
-    },
-    outcome: {
-      en: "Tenant complaints fell to under nine a month within two quarters. The Thursday outage turned out to be an overloaded riser shared with a tenant's server room.",
-      ar: "انخفضت شكاوى المستأجرين إلى أقل من تسع شهريًا خلال ربعين. وتبيّن أن انقطاع الخميس سببه خط تغذية محمّل زيادة يشترك فيه مع غرفة خوادم أحد المستأجرين.",
-    },
-    metrics: [
-      { value: { en: "−78%", ar: "−٧٨٪" }, label: { en: "Tenant complaints", ar: "شكاوى المستأجرين" } },
-      { value: { en: "412", ar: "٤١٢" }, label: { en: "Assets registered", ar: "أصلًا مسجلًا" } },
-      { value: { en: "14", ar: "١٤" }, label: { en: "Floors covered", ar: "طابقًا مشمولًا" } },
-    ],
-    media: slot("project-olaya", "schematic", {
-      en: "Curved glass façade of a multi-storey office tower",
-      ar: "واجهة زجاجية منحنية لبرج مكاتب متعدد الطوابق",
-    }, "/images/project-olaya.jpg"),
-    accent: "aqua",
-  },
-  {
-    slug: "hittin-pool-leak",
-    title: {
-      en: "Pool & Slab Leak Investigation, Hittin",
-      ar: "تحقيق تسرب مسبح وصبّة، حطين",
-    },
-    client: { en: "Private residence", ar: "مسكن خاص" },
-    sector: { en: "Residential", ar: "سكني" },
-    year: "2025",
-    district: { en: "Hittin", ar: "حطين" },
-    services: ["leak-detection", "plumbing"],
-    area: { en: "Villa + 60 m³ pool", ar: "فيلا + مسبح ٦٠ م³" },
-    duration: { en: "2 visits", ar: "زيارتان" },
-    summary: {
-      en: "Water bill had tripled over four months. Two previous contractors had broken up eleven square metres of terrace and found nothing.",
-      ar: "تضاعفت فاتورة المياه ثلاث مرات خلال أربعة أشهر. وسبق أن كسر مقاولان سابقان أحد عشر مترًا مربعًا من التراس دون العثور على شيء.",
-    },
-    challenge: {
-      en: "The visible damp patch was on the terrace, eight metres from the actual fault. Both previous attempts had excavated exactly where the symptom appeared.",
-      ar: "بقعة الرطوبة الظاهرة كانت على التراس، على بعد ثمانية أمتار من العطل الفعلي. وقد حفر المحاولتان السابقتان في موضع ظهور العَرَض تمامًا.",
-    },
-    approach: {
-      en: "Static pool test overnight isolated the pool as sound. Acoustic correlation on the pressurised feed, cross-checked with thermal and tracer gas, put the fault under the driveway edge — where a settlement crack had sheared a PPR joint.",
-      ar: "اختبار ثابت للمسبح طوال الليل أثبت سلامته. والربط الصوتي على خط التغذية المضغوط، بالتحقق المتقاطع مع التصوير الحراري والغاز الكاشف، حدد العطل تحت حافة الممر — حيث قطع شقّ هبوط وصلة بولي بروبلين.",
-    },
-    outcome: {
-      en: "One 40 × 40 cm opening, joint replaced, pressure-tested and reinstated in a single day. Consumption returned to baseline within one billing cycle.",
-      ar: "فتحة واحدة ٤٠ × ٤٠ سم، استُبدلت الوصلة واختُبرت بالضغط وأُعيد التشطيب في يوم واحد. وعاد الاستهلاك إلى معدله الطبيعي خلال دورة فوترة واحدة.",
-    },
-    metrics: [
-      { value: { en: "0.16 m²", ar: "٠٫١٦ م²" }, label: { en: "Floor opened", ar: "مساحة الفتح" } },
-      { value: { en: "2 visits", ar: "زيارتان" }, label: { en: "To resolution", ar: "حتى الحل" } },
-      { value: { en: "−68%", ar: "−٦٨٪" }, label: { en: "Water consumption", ar: "استهلاك المياه" } },
-    ],
-    media: slot("project-hittin", "water", {
-      en: "Private villa swimming pool with a timber-clad terrace",
-      ar: "مسبح فيلا خاصة مع تراس مكسو بالخشب",
-    }, "/images/project-hittin.jpg"),
-    accent: "aqua",
-  },
-  {
-    slug: "diriyah-retail-fitout",
-    title: {
-      en: "Retail Fit-Out & Terrazzo, Diriyah",
-      ar: "تشطيب محل تجاري وترازو، الدرعية",
-    },
-    client: { en: "Hospitality group", ar: "مجموعة ضيافة" },
-    sector: { en: "Retail", ar: "تجزئة" },
-    year: "2025",
+    slug: "diriyah-mosque",
+    title: { en: "Neighbourhood mosque", ar: "مسجد الحي" },
+    place: { en: "Mosque", ar: "مسجد" },
     district: { en: "Diriyah", ar: "الدرعية" },
-    services: ["renovation", "floor-polishing", "electrical", "ceilings-gypsum"],
-    area: { en: "310 m²", ar: "٣١٠ م²" },
-    duration: { en: "5 weeks", ar: "٥ أسابيع" },
+    year: "2026",
+    services: ["marble-polishing", "crystallisation", "shine-maintenance"],
     summary: {
-      en: "A shell unit turned into a café with poured terrazzo floors, a shadow-gap ceiling and a fixed opening date that could not move.",
-      ar: "وحدة على الهيكل حُوّلت إلى مقهى بأرضيات ترازو مصبوبة وسقف بفجوات ظل وتاريخ افتتاح ثابت لا يقبل التأجيل.",
+      en: "A prayer hall used five times a day needs a hard shine. We polished, crystallised, and now buff it every month.",
+      ar: "قاعة صلاة تُستخدم خمس مرات يوميًا تحتاج لمعانًا صلبًا. جلينا وكرستلنا، والآن نلمّعها كل شهر.",
     },
-    challenge: {
-      en: "Five weeks from shell to trading, with terrazzo needing to cure before grinding and the ceiling needing to be finished before the floor could be protected.",
-      ar: "خمسة أسابيع من الهيكل إلى التشغيل، مع حاجة الترازو للتصلب قبل الجلي، وحاجة السقف للاكتمال قبل إمكانية حماية الأرضية.",
-    },
-    approach: {
-      en: "We sequenced backwards from the opening date. Ceiling and electrical first fix ran while terrazzo cured under sheeting; grinding started the morning the ceiling was signed off, with the whole shop on negative-pressure dust control.",
-      ar: "رتّبنا التسلسل عكسيًا من تاريخ الافتتاح. فنُفّذ السقف والتمديد الكهربائي الأولي بينما كان الترازو يتصلب تحت الأغطية، وبدأ الجلي صباح اعتماد السقف، مع تشغيل المحل بالكامل على نظام ضغط سالب للتحكم بالغبار.",
-    },
-    outcome: {
-      en: "Handed over two days ahead of the opening date, with the terrazzo at 92 GU and a snag list of four items, all closed before trading.",
-      ar: "تم التسليم قبل موعد الافتتاح بيومين، بلمعان ترازو ٩٢ وحدة وقائمة ملاحظات من أربعة بنود أُغلقت جميعها قبل بدء التشغيل.",
-    },
-    metrics: [
-      { value: { en: "−2 days", ar: "−يومان" }, label: { en: "Against programme", ar: "مقابل البرنامج" } },
-      { value: { en: "92 GU", ar: "٩٢ وحدة" }, label: { en: "Terrazzo gloss", ar: "لمعان الترازو" } },
-      { value: { en: "4", ar: "٤" }, label: { en: "Snag items", ar: "بنود المعالجة" } },
+    facts: [
+      { value: { en: "900 m²", ar: "٩٠٠ م²" }, label: { en: "Marble", ar: "رخام" } },
+      { value: { en: "3 nights", ar: "٣ ليالٍ" }, label: { en: "Time", ar: "المدة" } },
+      { value: { en: "Monthly", ar: "شهريًا" }, label: { en: "Maintenance", ar: "الصيانة" } },
     ],
-    media: slot("project-diriyah", "marble", {
-      en: "Café interior with a terrazzo floor, timber counter and arched windows",
-      ar: "داخل مقهى بأرضية ترازو وكاونتر خشبي ونوافذ مقوسة",
-    }, "/images/project-diriyah.jpg"),
+    media: photo("mosque-gold-hall", {
+      en: "The mosque hall with its floor shining like a mirror",
+      ar: "قاعة المسجد وأرضيتها تلمع كالمرآة",
+    }),
+    before: photo("before-hall", {
+      en: "A dull hall floor before the work",
+      ar: "أرضية قاعة باهتة قبل العمل",
+    }),
+    gallery: [
+      photo("mosque-prayer-hall", { en: "The white marble prayer hall", ar: "قاعة الصلاة برخامها الأبيض" }),
+      photo("mosque-columns", { en: "Columns reflected in the polished floor", ar: "الأعمدة تنعكس في الأرضية المصقولة" }),
+    ],
     accent: "gold",
   },
   {
-    slug: "narjis-compound-ac",
-    title: {
-      en: "Compound AC Overhaul, Al Narjis",
-      ar: "إصلاح شامل لتكييف مجمّع، النرجس",
-    },
-    client: { en: "Residential compound", ar: "مجمّع سكني" },
-    sector: { en: "Facilities", ar: "مرافق" },
-    year: "2024",
-    district: { en: "Al Narjis", ar: "النرجس" },
-    services: ["ac-maintenance", "electrical", "annual-contracts"],
-    area: { en: "46 units", ar: "٤٦ وحدة" },
-    duration: { en: "3 weeks", ar: "٣ أسابيع" },
+    slug: "olaya-office",
+    title: { en: "Company head office", ar: "المقر الرئيسي لشركة" },
+    place: { en: "Office tower lobby", ar: "بهو برج مكاتب" },
+    district: { en: "Al Olaya", ar: "العليا" },
+    year: "2025",
+    services: ["granite-polishing", "shine-maintenance"],
     summary: {
-      en: "Forty-six villas, none serviced since handover four years earlier, going into a Riyadh summer with rising failure rates.",
-      ar: "ست وأربعون فيلا لم تخضع لأي صيانة منذ التسليم قبل أربع سنوات، تدخل صيف الرياض مع ارتفاع معدلات الأعطال.",
+      en: "Thousands of shoes a day had worn a grey path through the granite lobby. We polished it over one weekend and keep it shiny on a plan.",
+      ar: "آلاف الأحذية يوميًا رسمت ممرًا رماديًا في بهو الجرانيت. جليناه في عطلة نهاية أسبوع ونحافظ على لمعانه بخطة دورية.",
     },
-    challenge: {
-      en: "Service all units before peak season without leaving any family without cooling overnight, and identify which compressors were near end of life before they failed in August.",
-      ar: "صيانة جميع الوحدات قبل ذروة الموسم دون ترك أي أسرة بلا تبريد ليلًا، وتحديد الكمبروسرات القريبة من نهاية عمرها قبل أن تتعطل في أغسطس.",
-    },
-    approach: {
-      en: "Four villas a day, coil wash and full service, with running amps logged per unit. Any compressor drawing above nameplate was flagged amber and quoted for planned replacement rather than left to fail.",
-      ar: "أربع فلل يوميًا، غسيل ملفات وصيانة كاملة، مع تسجيل شدة التيار لكل وحدة. وأي كمبروسر يسحب تيارًا أعلى من لوحة البيانات وُضع في القائمة البرتقالية وسُعّر لاستبدال مخطط بدل تركه حتى العطل.",
-    },
-    outcome: {
-      en: "Nine compressors replaced on a planned schedule in spring. Zero emergency AC callouts across the compound that summer, against nineteen the year before.",
-      ar: "استُبدل تسعة كمبروسرات وفق جدول مخطط في الربيع. وصفر استدعاء طارئ للتكييف في المجمّع ذلك الصيف، مقابل تسعة عشر في العام السابق.",
-    },
-    metrics: [
-      { value: { en: "19 → 0", ar: "١٩ ← ٠" }, label: { en: "Emergency callouts", ar: "استدعاءات الطوارئ" } },
-      { value: { en: "46", ar: "٤٦" }, label: { en: "Villas serviced", ar: "فيلا مُصانة" } },
-      { value: { en: "−31%", ar: "−٣١٪" }, label: { en: "Cooling power draw", ar: "استهلاك التبريد" } },
+    facts: [
+      { value: { en: "540 m²", ar: "٥٤٠ م²" }, label: { en: "Granite", ar: "جرانيت" } },
+      { value: { en: "1 weekend", ar: "عطلة واحدة" }, label: { en: "Time", ar: "المدة" } },
+      { value: { en: "Weekly", ar: "أسبوعيًا" }, label: { en: "Maintenance", ar: "الصيانة" } },
     ],
-    media: slot("project-narjis", "spark", {
-      en: "Bank of outdoor condenser units mounted on a building wall",
-      ar: "مجموعة وحدات تكثيف خارجية مثبتة على جدار مبنى",
-    }, "/images/project-narjis.jpg"),
+    media: photo("lobby-office", {
+      en: "The office lobby floor after polishing",
+      ar: "أرضية بهو المكتب بعد الجلي",
+    }),
+    before: photo("granite-tiles", {
+      en: "The worn granite before the work",
+      ar: "الجرانيت المتآكل قبل العمل",
+    }),
+    gallery: [
+      photo("lobby-reception", { en: "The reception area", ar: "منطقة الاستقبال" }),
+      photo("lobby-columns", { en: "Columns mirrored in the floor", ar: "الأعمدة منعكسة في الأرضية" }),
+    ],
     accent: "aqua",
   },
   {
-    slug: "sahafa-majlis-refurb",
-    title: {
-      en: "Majlis Refurbishment, Al Sahafa",
-      ar: "تجديد مجلس، حي الصحافة",
-    },
-    client: { en: "Private residence", ar: "مسكن خاص" },
-    sector: { en: "Residential", ar: "سكني" },
+    slug: "hittin-hotel",
+    title: { en: "Boutique hotel", ar: "فندق بوتيك" },
+    place: { en: "Hotel lobby & corridors", ar: "بهو فندق وممراته" },
+    district: { en: "Hittin", ar: "حطين" },
     year: "2025",
-    district: { en: "Al Sahafa", ar: "الصحافة" },
-    services: ["renovation", "ceilings-gypsum", "painting", "carpentry"],
-    area: { en: "95 m²", ar: "٩٥ م²" },
-    duration: { en: "18 days", ar: "١٨ يومًا" },
+    services: ["marble-polishing", "crystallisation"],
     summary: {
-      en: "A dated majlis rebuilt around a new light cove, full-height joinery and a micro-cement feature wall.",
-      ar: "مجلس قديم أُعيد بناؤه حول حفرة إنارة جديدة وأعمال خشبية بكامل الارتفاع وجدار مميز بالمايكروسمنت.",
+      en: "The hotel could not close. We worked from midnight to 6 AM for one week and the guests never saw a machine.",
+      ar: "الفندق لم يستطع الإغلاق. عملنا من منتصف الليل حتى السادسة صباحًا لأسبوع، ولم يرَ النزلاء أي معدة.",
     },
-    challenge: {
-      en: "The ceiling had cracked along every board joint, and the room was out of square by 60 mm across its length — which would have shown in any full-height joinery run.",
-      ar: "كان السقف متشققًا عند كل وصلة لوح، وكانت الغرفة منحرفة عن الزاوية القائمة بمقدار ٦٠ مم على امتداد طولها — وهو ما كان سيظهر في أي عمل خشبي بكامل الارتفاع.",
-    },
-    approach: {
-      en: "Ceiling stripped and re-framed at correct centres rather than patched. Joinery scribed to the wall with a tapered filler panel at the shadow gap, so the eye reads a straight line even though the wall is not.",
-      ar: "أُزيل السقف وأُعيد تقفيصه بمسافات صحيحة بدل الترقيع. وفُصّلت الأعمال الخشبية على الجدار مع لوح حشو متدرج عند فجوة الظل، فترى العين خطًا مستقيمًا رغم أن الجدار ليس كذلك.",
-    },
-    outcome: {
-      en: "No visible taper, no cracking at twelve-month review, and a light cove that hides its fixtures completely at seated eye level.",
-      ar: "لا تدرّج ظاهر، ولا تشقق عند المراجعة بعد اثني عشر شهرًا، وحفرة إنارة تخفي وحداتها تمامًا عند مستوى نظر الجالس.",
-    },
-    metrics: [
-      { value: { en: "60 mm", ar: "٦٠ مم" }, label: { en: "Wall deviation absorbed", ar: "انحراف جدار مُستوعب" } },
-      { value: { en: "18 days", ar: "١٨ يومًا" }, label: { en: "Shell to handover", ar: "من التجريد للتسليم" } },
-      { value: { en: "0", ar: "٠" }, label: { en: "Cracks at 12 months", ar: "شقوق بعد ١٢ شهرًا" } },
+    facts: [
+      { value: { en: "1,200 m²", ar: "١٬٢٠٠ م²" }, label: { en: "Marble", ar: "رخام" } },
+      { value: { en: "7 nights", ar: "٧ ليالٍ" }, label: { en: "Time", ar: "المدة" } },
+      { value: { en: "0", ar: "٠" }, label: { en: "Days closed", ar: "أيام إغلاق" } },
     ],
-    media: slot("project-sahafa", "schematic", {
-      en: "Majlis with a black marble fireplace column, coffered ceiling and built-in joinery",
-      ar: "مجلس بعمود مدفأة من الرخام الأسود وسقف مقسّم ونجارة مدمجة",
-    }, "/images/project-sahafa.jpg"),
+    media: photo("lobby-grand", {
+      en: "The hotel lobby with its polished marble floor",
+      ar: "بهو الفندق بأرضيته الرخامية المصقولة",
+    }),
+    before: photo("tiles-worn", {
+      en: "Worn stone in a corridor before polishing",
+      ar: "حجر متآكل في ممر قبل التلميع",
+    }),
+    gallery: [
+      photo("corridor-grand", { en: "A polished corridor and staircase", ar: "ممر ودرج مصقولان" }),
+      photo("lobby-steps", { en: "The lobby steps after polishing", ar: "درجات البهو بعد التلميع" }),
+    ],
     accent: "gold",
+  },
+  {
+    slug: "narjis-showroom",
+    title: { en: "Car showroom", ar: "معرض سيارات" },
+    place: { en: "Showroom floor", ar: "أرضية معرض" },
+    district: { en: "Al Narjis", ar: "النرجس" },
+    year: "2025",
+    services: ["terrazzo-polishing", "scratch-stain-removal"],
+    summary: {
+      en: "Tyre marks and oil spots on a big terrazzo floor. We ground them out and polished the whole floor to a showroom shine.",
+      ar: "آثار إطارات وبقع زيت على أرضية ترازو كبيرة. جليناها وأزلناها ولمّعنا الأرضية كلها بلمعان المعارض.",
+    },
+    facts: [
+      { value: { en: "1,800 m²", ar: "١٬٨٠٠ م²" }, label: { en: "Terrazzo", ar: "ترازو" } },
+      { value: { en: "4 days", ar: "٤ أيام" }, label: { en: "Time", ar: "المدة" } },
+      { value: { en: "All", ar: "كلها" }, label: { en: "Stains removed", ar: "بقع أُزيلت" } },
+    ],
+    media: photo("showroom-white", {
+      en: "The white showroom floor with clear reflections",
+      ar: "أرضية المعرض البيضاء بانعكاسات واضحة",
+    }),
+    before: photo("marble-cracked", {
+      en: "Marks and cracks on the floor before the work",
+      ar: "آثار وشقوق في الأرضية قبل العمل",
+    }),
+    gallery: [
+      photo("gallery-reflect", { en: "Reflections on the finished floor", ar: "انعكاسات على الأرضية بعد الانتهاء" }),
+      photo("terrazzo", { en: "The terrazzo pattern after polishing", ar: "نقش الترازو بعد التلميع" }),
+    ],
+    accent: "aqua",
+  },
+  {
+    slug: "sahafa-warehouse",
+    title: { en: "Logistics warehouse", ar: "مستودع لوجستي" },
+    place: { en: "Warehouse", ar: "مستودع" },
+    district: { en: "Al Sahafa", ar: "الصحافة" },
+    year: "2024",
+    services: ["terrazzo-polishing", "shine-maintenance"],
+    summary: {
+      en: "A 4,000 m² concrete floor polished so hard and smooth that forklifts glide and dust is gone.",
+      ar: "أرضية خرسانية بمساحة ٤٬٠٠٠ م² صُقلت حتى صارت صلبة وناعمة، فتنزلق الرافعات ويختفي الغبار.",
+    },
+    facts: [
+      { value: { en: "4,000 m²", ar: "٤٬٠٠٠ م²" }, label: { en: "Concrete", ar: "خرسانة" } },
+      { value: { en: "6 days", ar: "٦ أيام" }, label: { en: "Time", ar: "المدة" } },
+      { value: { en: "Monthly", ar: "شهريًا" }, label: { en: "Maintenance", ar: "الصيانة" } },
+    ],
+    media: photo("warehouse-shine", {
+      en: "The finished warehouse floor reflecting the roof lights",
+      ar: "أرضية المستودع بعد الانتهاء تعكس أضواء السقف",
+    }),
+    before: photo("before-hall", {
+      en: "The matte concrete floor before grinding",
+      ar: "الأرضية الخرسانية الباهتة قبل الجلي",
+    }),
+    gallery: [
+      photo("team-at-work", { en: "Our team on the warehouse floor", ar: "فريقنا على أرضية المستودع" }),
+      photo("warehouse-epoxy", { en: "Another polished warehouse floor", ar: "أرضية مستودع أخرى مصقولة" }),
+    ],
+    accent: "aqua",
   },
 ];
 

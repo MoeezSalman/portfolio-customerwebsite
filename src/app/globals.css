@@ -33,6 +33,10 @@
   --color-aqua-2: #0b675c;
   --color-aqua-3: #bfe6df;
 
+  /* One corner radius for every panel and photo, so nothing reads as an odd one out. */
+  --radius-card: 1.5rem;
+  --radius-card-lg: 2.25rem;
+
   --font-display: var(--font-syne), var(--font-arabic), ui-sans-serif, system-ui,
     sans-serif;
   --font-body: var(--font-inter), var(--font-arabic), ui-sans-serif, system-ui,
@@ -207,49 +211,6 @@
   color: transparent;
 }
 
-/* 1px gradient hairline border — used sparingly now, mainly on photos. */
-@utility ring-hairline {
-  position: relative;
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(
-      140deg,
-      color-mix(in oklab, var(--color-gold) 55%, transparent),
-      color-mix(in oklab, var(--color-line-2) 60%, transparent) 40%,
-      color-mix(in oklab, var(--color-line-2) 60%, transparent) 60%,
-      color-mix(in oklab, var(--color-aqua) 40%, transparent)
-    );
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
-}
-
-@utility grid-lines {
-  background-image:
-    linear-gradient(
-      to right,
-      color-mix(in oklab, var(--color-line-2) 45%, transparent) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      to bottom,
-      color-mix(in oklab, var(--color-line-2) 45%, transparent) 1px,
-      transparent 1px
-    );
-  background-size: 64px 64px;
-}
-
 @utility mask-fade-y {
   -webkit-mask-image: linear-gradient(
     to bottom,
@@ -314,16 +275,29 @@
   );
 }
 
+/* Section rhythm: one padding for every section so nothing gets a stray gap. */
+@utility section-y {
+  padding-block: 2.5rem;
+  @media (min-width: 768px) {
+    padding-block: 3.5rem;
+  }
+}
+
+/* Hollow display text for the scroll-driven word bands. */
+@utility text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in oklab, var(--color-chalk) 28%, transparent);
+}
+@utility text-outline-gold {
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in oklab, var(--color-gold) 70%, transparent);
+}
+
 /* Flip an element's horizontal axis in RTL (arrows, chevrons). */
 @utility flip-rtl {
   [dir="rtl"] & {
     transform: scaleX(-1);
   }
-}
-
-/* Editorial rule: the thin top border that separates list rows / columns. */
-@utility rule-t {
-  border-top: 1px solid var(--color-line);
 }
 
 @media (prefers-reduced-motion: reduce) {

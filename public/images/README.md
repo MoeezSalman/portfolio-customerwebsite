@@ -1,76 +1,99 @@
 # Photography
 
-Every visual on the site is an **image slot** (`src/lib/media.ts`). All 29
-slots currently carry a real photograph from this folder, wired through the
-`src` argument of each `slot(...)` call. If a slot ever has no `src`,
-`<Figure/>` falls back to generated artwork (`<Plate/>`), so removing a file
-never breaks a page.
+Every photograph on the site is an **image slot** (`src/lib/media.ts`): a
+stable id that is also the filename here, bilingual alt text, and the path.
+Content files reference slots with `photo("<id>", alt)`. All 56 files
+are real photographs; the generated `<Plate/>` art is only a fallback.
 
 ## Replacing a photo with the client's own
 
-1. Overwrite the file here, keeping the same name (e.g. `floor-polishing.jpg`).
-2. Update the `alt` text in the matching `slot(...)` call so it describes the
-   new picture — alt text is read aloud to screen-reader users and indexed by
-   search engines, so it must match what is actually shown.
+1. Overwrite the file here, keeping the same name (e.g. `salon-marble.jpg`).
+2. Update the `alt` text in the matching `photo(...)` call so it describes
+   the new picture.
 
-Recommended export: JPEG, longest edge **2400 px**, quality 80, under ~800 KB.
-`next/image` serves responsive AVIF/WebP from these on the fly.
+Recommended export: JPEG, longest edge **2000 px**, quality ~75, under
+~400 KB. `next/image` serves responsive AVIF/WebP from these on the fly.
 
-| Slot | Used on | Aspect it renders at |
-| --- | --- | --- |
-| `floor-polishing` … `annual-contracts` (15) | page hero (tall, bleeds to edge), services hover-preview 4:5, before/after slider 4:3, CTA full-bleed | tall / 4:3 |
-| `project-*` (6) | page hero, alternating project rows 16:10, home featured row | wide |
-| `post-*` (6) | page hero, journal lead 16:10, journal rows 4:3 thumb | wide |
-| `about-story` | about page, beside the company story | 4:5 portrait |
+## Naming
 
-Every inner page hero and every closing CTA carries a photograph — pick the
-`media` prop on `<PageHero/>` / `<CtaSection/>` per page.
+Files are named by what they show, not where they are used, because most
+are used in several places: `marble-*`, `tiles-*`, `granite*`, `terrazzo*`
+for surfaces; `villa-*`, `mosque-*`, `lobby-*`, `warehouse-*`,
+`showroom-*` for places; `machine-*` for equipment; `*-worn`, `*-stained`,
+`*-cracked`, `before-hall` for the "before" side of the sliders.
 
-## Before/after slider
+## Before/after sliders
 
-`ShineSection` compares two different photographs: `floor-polishing-before`
-(a matte, unfinished industrial hall) against the flagship `floor-polishing`
-shot. They are the same *kind* of space, not the same room — the copy says
-so. For the client's own pair, shoot both frames from a **locked-off tripod
-position** with identical lighting and overwrite both files.
+Each service and project pairs a `before` slot with its main photo. They are
+the same *kind* of surface, not the same room. For the client's own pairs,
+shoot both frames from a **locked-off tripod position** with identical
+lighting and overwrite both files.
 
 ## Sources and licence
 
-All current photographs are from Unsplash under the
-[Unsplash License](https://unsplash.com/license) — free for commercial use,
-no attribution required. They were chosen by reviewing each image against the
-page it appears on. Photo IDs, for provenance:
+Photographs are from Unsplash ([Unsplash License](https://unsplash.com/license))
+and Pexels ([Pexels License](https://www.pexels.com/license/)) — both free for
+commercial use, no attribution required. Each was reviewed against the page it
+appears on. Provenance:
 
-| Slot | Unsplash photo ID |
-| --- | --- |
-| `floor-polishing` | `photo-1771531072574-af6ed6b954c0` |
-| `marble-restoration` | `photo-1551554781-c46200ea959d` |
-| `plumbing` | `photo-1538474705339-e87de81450e8` |
-| `leak-detection` | `photo-1660642670168-d2c7a9921d6d` |
-| `electrical` | `photo-1544724569-5f546fd6f2b5` |
-| `ac-maintenance` | `photo-1718203862467-c33159fdc504` |
-| `painting` | `photo-1562259949-e8e7689d7828` |
-| `carpentry` | `photo-1687422810663-c316494f725a` |
-| `iron-works` | `photo-1504328345606-18bbc8c9d7d1` |
-| `ceilings-gypsum` | `photo-1550932372-3080d57e4e74` |
-| `deep-cleaning` | `photo-1686178827149-6d55c72d81df` |
-| `tank-cleaning` | `photo-1630732347607-3a89a66447e9` |
-| `pest-control` | `photo-1581578017093-cd30fce4eeb7` |
-| `renovation` | `photo-1517581177682-a085bb7ffb15` |
-| `annual-contracts` | `photo-1621905251189-08b45d6a269e` |
-| `project-yasmin` | `photo-1757924461488-ef9ad0670978` |
-| `project-olaya` | `photo-1621831337128-35676ca30868` |
-| `project-hittin` | `photo-1692736933760-8a8a9b8c1b6f` |
-| `project-diriyah` | `photo-1567880905822-56f8e06fe630` |
-| `project-narjis` | `photo-1667983453881-4992fe86ab1b` |
-| `project-sahafa` | `photo-1704040686413-2c607dbd2f06` |
-| `post-polish-vs-coating` | `photo-1772209415876-76ea6cbc2f0c` |
-| `post-ac-checklist` | `photo-1651474738521-efacfb201039` |
-| `post-leak-signs` | `photo-1526898943670-92bfa9f94c12` |
-| `post-amc` | `photo-1621905252507-b35492cc74b4` |
-| `post-marble-care` | `photo-1550053808-52a75a05955d` |
-| `post-sequencing` | `photo-1505798577917-a65157d3320a` |
-| `about-story` | `photo-1566041510394-cf7c8fe21800` |
-| `floor-polishing-before` | `photo-1694885169342-909981fb408a` |
+| File | Source | ID |
+| --- | --- | --- |
+| `bathroom-dark` | Unsplash | `photo-1756079664354-34944e001f6d` |
+| `bathroom-marble` | Pexels | `8146152` |
+| `before-hall` | Unsplash | `photo-1694885169342-909981fb408a` |
+| `corridor-geometric` | Unsplash | `photo-1563219125-1db796e20ff2` |
+| `corridor-grand` | Pexels | `7045766` |
+| `gallery-reflect` | Unsplash | `photo-1774021792172-5f78c2e17ca8` |
+| `granite` | Unsplash | `photo-1628977614615-f5f4068361ed` |
+| `granite-tiles` | Unsplash | `photo-1534503442463-e0ddba45cf4c` |
+| `hallway-warm` | Pexels | `7412599` |
+| `kitchen-granite` | Unsplash | `photo-1778936317494-246b9262bbaf` |
+| `kitchen-marble` | Unsplash | `photo-1758448755927-e5c5ae14790c` |
+| `lobby-columns` | Unsplash | `photo-1712766822486-735e74543eda` |
+| `lobby-grand` | Unsplash | `photo-1742844552193-2fd3425cd26d` |
+| `lobby-office` | Pexels | `164586` |
+| `lobby-reception` | Unsplash | `photo-1758448500688-3ababa93fd67` |
+| `lobby-steps` | Unsplash | `photo-1723516908282-b3c795e9416a` |
+| `machine-grinder` | Pexels | `39105478` |
+| `machine-hand-grinder` | Unsplash | `photo-1736435364319-34c139cd3ccb` |
+| `machine-handle` | Unsplash | `photo-1786539861527-ef6552d05c78` |
+| `machine-in-hall` | Unsplash | `photo-1744681984533-ce43dce4cc70` |
+| `machine-operator` | Unsplash | `photo-1668786710595-afc9d92f304e` |
+| `machine-rideon` | Unsplash | `photo-1784622526600-d5551dc99cc9` |
+| `machine-rideon-front` | Unsplash | `photo-1784622526658-61103c3ad820` |
+| `machine-rideon-side` | Unsplash | `photo-1784622526556-add0b02a24b6` |
+| `machine-vacuum` | Pexels | `6196579` |
+| `man-thobe` | Unsplash | `photo-1784400340406-6df3756e1ba1` |
+| `marble-black-white` | Unsplash | `photo-1588606805498-5c212783a722` |
+| `marble-checker` | Unsplash | `photo-1684793314416-6bebc53929cc` |
+| `marble-columns-sun` | Unsplash | `photo-1600328604921-300918f36018` |
+| `marble-cracked` | Unsplash | `photo-1550053808-52a75a05955d` |
+| `marble-pattern-corridor` | Unsplash | `photo-1708191891522-cfcf4223ccb3` |
+| `marble-stained` | Unsplash | `photo-1515895309288-a3815ab7cf81` |
+| `marble-star` | Unsplash | `photo-1718653159346-d286be354382` |
+| `marble-sunlight` | Unsplash | `photo-1754437958878-b9d38859925a` |
+| `marble-texture` | Unsplash | `photo-1551554781-c46200ea959d` |
+| `marble-white` | Unsplash | `photo-1566041510394-cf7c8fe21800` |
+| `marble-white-texture` | Unsplash | `photo-1694376329556-cf1ba3610960` |
+| `mosque-columns` | Unsplash | `photo-1771335392380-d97a85bcccfe` |
+| `mosque-courtyard` | Unsplash | `photo-1567215378181-6ecf3590646f` |
+| `mosque-gold-hall` | Unsplash | `photo-1786343237737-87b73ea5d504` |
+| `mosque-prayer-hall` | Unsplash | `photo-1653048825380-0eecb9580edc` |
+| `salon-marble` | Unsplash | `photo-1706629503586-2731f65587ae` |
+| `showroom-white` | Unsplash | `photo-1774021794777-4ada1deaf41f` |
+| `stairs-marble` | Unsplash | `photo-1781047884697-53a3dc4d7eee` |
+| `team-at-work` | Unsplash | `photo-1772209415876-76ea6cbc2f0c` |
+| `terrazzo` | Unsplash | `photo-1771575521341-415ec739be67` |
+| `terrazzo-black` | Unsplash | `photo-1763965780173-a94955ed16c7` |
+| `tiles-geometric` | Pexels | `15273824` |
+| `tiles-white` | Unsplash | `photo-1580398562556-d33329a0f29b` |
+| `tiles-worn` | Unsplash | `photo-1584354273341-3eb96574e5be` |
+| `villa-entrance` | Unsplash | `photo-1774940578514-28b165796456` |
+| `villa-hall` | Unsplash | `photo-1780147343308-7ede77816ee6` |
+| `villa-living` | Unsplash | `photo-1782803432396-e168aa0e54a1` |
+| `villa-lounge` | Unsplash | `photo-1758448500596-ce0e0239f1be` |
+| `warehouse-epoxy` | Pexels | `36230779` |
+| `warehouse-shine` | Unsplash | `photo-1771531072574-af6ed6b954c0` |
 
-Reconstruct any source URL as `https://images.unsplash.com/photo-<id>`.
+Reconstruct a source URL as `https://images.unsplash.com/<id>` or
+`https://www.pexels.com/photo/<id>/`.

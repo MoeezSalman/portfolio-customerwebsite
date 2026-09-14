@@ -18,17 +18,23 @@ export function Accordion({
   const [open, setOpen] = useState<number | null>(defaultOpen);
 
   return (
-    <div className={cn("divide-y divide-line", className)}>
+    <div className={cn("flex flex-col gap-2.5", className)}>
       {items.map((item, i) => {
         const isOpen = open === i;
         return (
-          <div key={i}>
+          <div
+            key={i}
+            className={cn(
+              "rounded-card px-5 transition-colors duration-300 md:px-6",
+              isOpen ? "bg-white/80" : "bg-ink-2/70 hover:bg-ink-2",
+            )}
+          >
             <h3>
               <button
                 type="button"
                 onClick={() => setOpen(isOpen ? null : i)}
                 aria-expanded={isOpen}
-                className="group flex w-full items-start gap-5 py-6 text-start"
+                className="group flex w-full items-start gap-4 py-5 text-start"
               >
                 <span
                   className={cn(
@@ -72,7 +78,7 @@ export function Accordion({
                   transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
                   className="overflow-hidden"
                 >
-                  <p className="pb-7 ps-11 pe-4 leading-relaxed text-fog">{item.a}</p>
+                  <p className="pb-6 ps-10 pe-2 leading-relaxed text-fog">{item.a}</p>
                 </motion.div>
               )}
             </AnimatePresence>

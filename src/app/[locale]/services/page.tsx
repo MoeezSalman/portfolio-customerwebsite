@@ -3,28 +3,31 @@ import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { services } from "@/content/services";
-import { PageHero, Section } from "@/components/ui/PageHero";
-import { ServicesShowcase } from "@/components/sections/ServicesShowcase";
+import { MosaicHero } from "@/components/heroes/MosaicHero";
+import { ServicesSection } from "@/components/sections/ServicesSection";
+import { PlacesSection } from "@/components/sections/PlacesSection";
+import { ShineSection } from "@/components/sections/ShineSection";
 import { ProcessSection } from "@/components/sections/ProcessSection";
 import { CtaSection } from "@/components/sections/CtaSection";
+import { WordBand } from "@/components/motion/WordBand";
 
 export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/services">): Promise<Metadata> {
   const { locale } = await params;
-  const ar = locale === "ar";
+  if (!isLocale(locale)) return {};
+  const l = locale as Locale;
   return {
-    title: ar ? "خدماتنا" : "Services",
-    description: ar
-      ? "أربع عشرة خدمة صيانة متخصصة في الرياض: جلي وتلميع الأرضيات والرخام، السباكة، الكهرباء، التكييف، الدهانات، النجارة، الحدادة، كشف التسربات والمزيد."
-      : "Fourteen specialist maintenance services across Riyadh: floor and marble polishing, plumbing, electrical, AC, painting, carpentry, iron works, leak detection and more.",
+    title: l === "ar" ? "خدماتنا" : "Services",
+    description:
+      l === "ar"
+        ? "جلي وتلميع الرخام والبلاط والجرانيت والترازو في الرياض."
+        : "Marble, tile, granite and terrazzo polishing in Riyadh.",
     alternates: { canonical: `/${locale}/services` },
   };
 }
 
-export default async function ServicesPage({
-  params,
-}: PageProps<"/[locale]/services">) {
+export default async function ServicesPage({ params }: PageProps<"/[locale]/services">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const l = locale as Locale;
@@ -32,28 +35,24 @@ export default async function ServicesPage({
 
   return (
     <>
-      <PageHero
+      <MosaicHero
         locale={l}
+        photos={[services[0].gallery[2], services[1].media, services[7].media]}
         eyebrow={t("sectionServices")}
-        title={t("sectionServicesTitle")}
-        crumbs={[{ label: l === "ar" ? "خدماتنا" : "Services" }]}
-        media={services[1].media}
-        caption={services[1].title[l]}
+        title={l === "ar" ? "كل ما نلمّعه" : "Everything we polish"}
         lead={
           l === "ar"
-            ? "كل خدمة أدناه ينفّذها فنيونا مباشرة — لا وساطة ولا مقاولون من الباطن. اختر ما تحتاجه وسترى بالضبط ما يشمله السعر والمعدات التي سنستخدمها."
-            : "Every service below is delivered by our own technicians — no brokering, no subcontracting. Open any one and you will see exactly what the price covers and which machines turn up."
+            ? "رخام، بلاط، جرانيت، ترازو. اختر أرضيتك وشاهد كيف نعيد لمعانها."
+            : "Marble, tiles, granite, terrazzo. Pick your floor and see how we bring the shine back."
         }
+        crumbs={[{ label: t("sectionServices") }]}
       />
-
-      <Section>
-        <div className="container-x">
-          <ServicesShowcase services={services} locale={l} />
-        </div>
-      </Section>
-
+      <ServicesSection locale={l} heading={false} className="pt-4 md:pt-6" />
+      <WordBand locale={l} set="materials" tone="gold" />
+      <ShineSection locale={l} />
+      <PlacesSection locale={l} />
       <ProcessSection locale={l} />
-      <CtaSection locale={l} media={services[2].media} />
+      <CtaSection locale={l} media={services[4].gallery[0]} />
     </>
   );
 }

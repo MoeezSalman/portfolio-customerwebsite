@@ -69,7 +69,7 @@ export function RevealGroup({
   className?: string;
   stagger?: number;
   amount?: number;
-  as?: "div" | "ul" | "section";
+  as?: "div" | "ul" | "ol" | "dl" | "section";
 }) {
   const Tag = motion[as];
   return (

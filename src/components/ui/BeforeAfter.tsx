@@ -70,11 +70,10 @@ export function BeforeAfter({
       onPointerUp={() => setDragging(false)}
       onPointerCancel={() => setDragging(false)}
       className={cn(
-        "relative touch-none overflow-hidden rounded-2xl select-none",
+        "relative touch-none overflow-hidden rounded-card select-none",
         dragging ? "cursor-grabbing" : "cursor-grab",
         className,
       )}
-      data-cursor="hot"
     >
       {/* "After" is the full-bleed base layer. */}
       <div className="absolute inset-0">{after}</div>

@@ -1,140 +1,81 @@
 import type { Bi } from "@/i18n/config";
+import { photo, type MediaSlot } from "@/lib/media";
 
+/** Three simple ways to buy. Prices are indicative and confirmed on site. */
 export type Plan = {
   id: string;
   name: Bi;
   tagline: Bi;
-  monthly: number;
-  yearly: number;
+  /** Displayed price line, e.g. "From SAR 1,200". */
+  price: Bi;
+  per: Bi;
   featured?: boolean;
   bestFor: Bi;
   includes: Bi<string[]>;
-  excludes: Bi<string[]>;
+  media: MediaSlot;
 };
 
-/** Fixed-cost preventive maintenance, in the mould of the UAE AMC model. */
 export const plans: Plan[] = [
   {
-    id: "bronze",
-    name: { en: "Bronze", ar: "برونزي" },
-    tagline: { en: "Cover the essentials", ar: "تغطية الأساسيات" },
-    monthly: 390,
-    yearly: 4200,
-    bestFor: {
-      en: "Apartments and smaller villas with a single AC system",
-      ar: "الشقق والفلل الصغيرة ذات نظام تكييف واحد",
-    },
+    id: "one-time",
+    name: { en: "One-time shine", ar: "تلميع لمرة واحدة" },
+    tagline: { en: "Polish it once, enjoy it for years.", ar: "لمّعها مرة، واستمتع بها سنوات." },
+    price: { en: "From SAR 1,500", ar: "من ١٬٥٠٠ ر.س" },
+    per: { en: "per visit", ar: "للزيارة" },
+    bestFor: { en: "Villas and apartments", ar: "الفلل والشقق" },
     includes: {
-      en: [
-        "2 scheduled visits per year",
-        "Full AC service, up to 4 units",
-        "Plumbing and electrical inspection",
-        "Water tank clean, once yearly",
-        "10% off all additional work",
-        "Priority booking within 48 hours",
-      ],
-      ar: [
-        "زيارتان مجدولتان سنويًا",
-        "صيانة تكييف كاملة حتى ٤ وحدات",
-        "فحص السباكة والكهرباء",
-        "تنظيف خزان المياه مرة سنويًا",
-        "خصم ١٠٪ على أي أعمال إضافية",
-        "أولوية حجز خلال ٤٨ ساعة",
-      ],
+      en: ["Full grind and polish", "Scratches and stains removed", "Sealed against spills", "90-day shine guarantee"],
+      ar: ["جلي وتلميع كامل", "إزالة الخدوش والبقع", "عزل ضد الانسكابات", "ضمان لمعان ٩٠ يومًا"],
     },
-    excludes: {
-      en: ["Spare parts", "Emergency callout fee", "Floor polishing"],
-      ar: ["قطع الغيار", "رسوم الاستدعاء الطارئ", "جلي الأرضيات"],
-    },
+    media: photo("villa-entrance", {
+      en: "A villa entrance hall with a white marble floor and stairs",
+      ar: "مدخل فيلا بأرضية رخام أبيض ودرج",
+    }),
   },
   {
-    id: "silver",
-    name: { en: "Silver", ar: "فضي" },
-    tagline: { en: "The one most villas need", ar: "الأنسب لمعظم الفلل" },
-    monthly: 690,
-    yearly: 7400,
+    id: "home-care",
+    name: { en: "Home care plan", ar: "خطة العناية بالمنزل" },
+    tagline: { en: "A quick buff every three months.", ar: "تلميع سريع كل ثلاثة أشهر." },
+    price: { en: "From SAR 450", ar: "من ٤٥٠ ر.س" },
+    per: { en: "per visit, 4 visits a year", ar: "للزيارة، ٤ زيارات سنويًا" },
     featured: true,
-    bestFor: {
-      en: "Family villas wanting predictable costs and no emergency surprises",
-      ar: "الفلل العائلية التي تريد تكاليف متوقعة دون مفاجآت طارئة",
-    },
+    bestFor: { en: "Busy family homes", ar: "المنازل العائلية النشطة" },
     includes: {
-      en: [
-        "4 scheduled visits per year",
-        "Full AC service, up to 10 units",
-        "Unlimited plumbing & electrical callouts",
-        "Water tank clean, twice yearly",
-        "Annual pest control treatment",
-        "15% off all additional work",
-        "4-hour emergency response, no callout fee",
-      ],
-      ar: [
-        "٤ زيارات مجدولة سنويًا",
-        "صيانة تكييف كاملة حتى ١٠ وحدات",
-        "استدعاءات سباكة وكهرباء غير محدودة",
-        "تنظيف خزان المياه مرتين سنويًا",
-        "مكافحة حشرات سنوية",
-        "خصم ١٥٪ على أي أعمال إضافية",
-        "استجابة طارئة خلال ٤ ساعات بدون رسوم",
-      ],
+      en: ["4 buff-and-shine visits a year", "Spot repairs included", "Priority booking", "Photo report each visit"],
+      ar: ["٤ زيارات تلميع سنويًا", "الإصلاحات الموضعية مشمولة", "أولوية في الحجز", "تقرير مصوّر بعد كل زيارة"],
     },
-    excludes: {
-      en: ["Major spare parts (quoted at cost + 10%)", "Full renovation works"],
-      ar: ["قطع الغيار الكبرى (تُسعَّر بالتكلفة + ١٠٪)", "أعمال الترميم الكاملة"],
-    },
+    media: photo("villa-living", {
+      en: "A family living room with a glossy marble floor",
+      ar: "غرفة معيشة عائلية بأرضية رخام لامعة",
+    }),
   },
   {
-    id: "gold",
-    name: { en: "Gold", ar: "ذهبي" },
-    tagline: { en: "Everything, including the shine", ar: "كل شيء، بما في ذلك اللمعان" },
-    monthly: 1290,
-    yearly: 13900,
-    bestFor: {
-      en: "Large villas, compounds and landlords managing multiple properties",
-      ar: "الفلل الكبيرة والمجمعات والملّاك الذين يديرون عقارات متعددة",
-    },
+    id: "business",
+    name: { en: "Business plan", ar: "خطة الأعمال" },
+    tagline: { en: "Shiny every day, all year.", ar: "لامعة كل يوم، طوال العام." },
+    price: { en: "From SAR 6 / m²", ar: "من ٦ ر.س / م²" },
+    per: { en: "per month", ar: "شهريًا" },
+    bestFor: { en: "Mosques, offices, hotels, shops", ar: "المساجد والمكاتب والفنادق والمحلات" },
     includes: {
-      en: [
-        "Monthly scheduled visits",
-        "Unlimited AC, plumbing & electrical",
-        "Annual floor polishing, up to 200 m²",
-        "Quarterly deep clean of wet areas",
-        "Water tank clean, quarterly",
-        "Pest control, twice yearly",
-        "25% off all additional work",
-        "2-hour emergency response, 24/7",
-        "Named account manager",
-      ],
-      ar: [
-        "زيارات شهرية مجدولة",
-        "تكييف وسباكة وكهرباء بلا حدود",
-        "جلي أرضيات سنوي حتى ٢٠٠ م²",
-        "تنظيف عميق ربع سنوي للمناطق الرطبة",
-        "تنظيف خزان المياه كل ثلاثة أشهر",
-        "مكافحة حشرات مرتين سنويًا",
-        "خصم ٢٥٪ على أي أعمال إضافية",
-        "استجابة طارئة خلال ساعتين على مدار الساعة",
-        "مدير حساب مخصص",
-      ],
+      en: ["Weekly or monthly visits", "Night work after closing", "Full polish once a year", "One fixed monthly fee"],
+      ar: ["زيارات أسبوعية أو شهرية", "عمل ليلي بعد الإغلاق", "جلي كامل مرة سنويًا", "رسوم شهرية ثابتة"],
     },
-    excludes: {
-      en: ["Structural works", "Full renovation projects"],
-      ar: ["الأعمال الإنشائية", "مشاريع الترميم الكاملة"],
-    },
+    media: photo("lobby-reception", {
+      en: "A modern office lobby with a polished floor",
+      ar: "بهو مكتب حديث بأرضية مصقولة",
+    }),
   },
 ];
 
 export const planNotes: Bi<string[]> = {
   en: [
-    "All prices are in Saudi Riyals and include VAT.",
-    "Yearly plans are billed once and save roughly two months against monthly billing.",
-    "Contracts run for twelve months and can be transferred if you sell the property.",
-    "Additional AC units beyond the plan limit are charged at SAR 70 per unit per service.",
+    "Prices depend on the size and condition of the floor. We confirm on site.",
+    "All plans include our 90-day shine guarantee.",
+    "You can stop a plan with one month's notice.",
   ],
   ar: [
-    "جميع الأسعار بالريال السعودي وشاملة ضريبة القيمة المضافة.",
-    "الباقات السنوية تُدفع مرة واحدة وتوفّر ما يعادل شهرين مقارنة بالدفع الشهري.",
-    "مدة العقد اثنا عشر شهرًا وقابل للنقل في حال بيع العقار.",
-    "الوحدات الإضافية التي تتجاوز حد الباقة تُحتسب بـ٧٠ ر.س لكل وحدة في كل صيانة.",
+    "الأسعار تعتمد على مساحة الأرضية وحالتها. نؤكدها في الموقع.",
+    "كل الخطط تشمل ضمان اللمعان ٩٠ يومًا.",
+    "يمكنك إيقاف الخطة بإشعار قبل شهر.",
   ],
 };

@@ -17,7 +17,14 @@ const TEAL = "#0f8a7b";
  * marker highlights the list row. Leaflet touches `window` on import, so it
  * is loaded inside the effect rather than at module scope.
  */
-export function CoverageMap({ locale }: { locale: Locale }) {
+export function CoverageMap({
+  locale,
+  overlay,
+}: {
+  locale: Locale;
+  /** Floats over the map's top-start corner — the page title lives here. */
+  overlay?: React.ReactNode;
+}) {
   const t = getDictionary(locale);
   const [active, setActive] = useState<string | null>(null);
   const mapEl = useRef<HTMLDivElement>(null);
@@ -122,17 +129,22 @@ export function CoverageMap({ locale }: { locale: Locale }) {
   }, [active]);
 
   return (
-    <div className="grid gap-8 lg:grid-cols-5">
+    <div className="grid gap-3 md:gap-4 lg:grid-cols-5">
       <div className="lg:col-span-3">
-        <div className="relative overflow-hidden rounded-2xl border border-line">
+        <div className="relative overflow-hidden rounded-card">
+          {overlay && (
+            <div className="pointer-events-none z-[500] mb-3 lg:absolute lg:top-4 lg:start-4 lg:mb-0 lg:max-w-[min(26rem,calc(100%-2rem))] [&_a]:pointer-events-auto">
+              {overlay}
+            </div>
+          )}
           <div
             ref={mapEl}
-            className="aspect-square w-full bg-ink-2 sm:aspect-[4/3]"
+            className="aspect-[4/5] w-full bg-ink-2 sm:aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-[36rem]"
             aria-label={t("sectionCoverageTitle")}
             role="region"
           />
           {/* Legend */}
-          <div className="pointer-events-none absolute bottom-4 start-4 z-[500] flex flex-col gap-2 rounded-xl border border-line bg-white/90 px-4 py-3">
+          <div className="pointer-events-none absolute bottom-4 start-4 z-[500] flex flex-col gap-2 rounded-card bg-white/90 px-4 py-3 backdrop-blur">
             <span className="flex items-center gap-2.5 text-[0.72rem] text-mist">
               <span className="size-2.5 rounded-full" style={{ background: GOLD }} />
               {t("coreDistricts")}
@@ -146,7 +158,7 @@ export function CoverageMap({ locale }: { locale: Locale }) {
       </div>
 
       <div className="lg:col-span-2">
-        <ul className="max-h-[32rem] overflow-y-auto border-y border-line">
+        <ul className="flex max-h-[36rem] flex-col gap-2 overflow-y-auto pe-1 [scrollbar-width:thin]">
           {areas.map((a) => (
             <li key={a.id}>
               <button
@@ -159,8 +171,8 @@ export function CoverageMap({ locale }: { locale: Locale }) {
                   mapRef.current?.flyTo([a.lat, a.lng], 13, { duration: 0.8 })
                 }
                 className={cn(
-                  "flex w-full items-center justify-between gap-4 border-b border-line py-4 text-start transition-colors duration-200",
-                  active === a.id ? "bg-black/[0.04]" : "hover:bg-black/[0.02]",
+                  "flex w-full items-center justify-between gap-4 rounded-card px-4 py-3.5 text-start transition-colors duration-200",
+                  active === a.id ? "bg-gold/15" : "bg-ink-2/70 hover:bg-ink-2",
                 )}
               >
                 <span className="flex items-center gap-3">

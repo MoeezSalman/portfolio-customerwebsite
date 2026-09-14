@@ -12,12 +12,15 @@ export function Figure({
   slot,
   locale,
   className,
+  imgClassName,
   sizes = "(max-width: 768px) 100vw, 50vw",
   priority = false,
 }: {
   slot: MediaSlot;
   locale: Locale;
   className?: string;
+  /** Applied to the <img> itself — for hover zooms and the like. */
+  imgClassName?: string;
   sizes?: string;
   priority?: boolean;
 }) {
@@ -32,7 +35,7 @@ export function Figure({
           fill
           sizes={sizes}
           priority={priority}
-          className="object-cover"
+          className={cn("object-cover", imgClassName)}
         />
       ) : (
         <>

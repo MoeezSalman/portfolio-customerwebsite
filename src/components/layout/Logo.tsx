@@ -28,20 +28,23 @@ export function Logo({
   name,
   tagline,
   className,
+  light = false,
 }: {
   name: string;
   tagline?: string;
   className?: string;
+  /** White wordmark for use over a dark photograph. */
+  light?: boolean;
 }) {
   return (
     <span className={cn("flex items-center gap-3", className)}>
       <LogoMark />
       <span className="flex flex-col leading-none">
-        <span className="font-display text-[1.15rem] font-bold tracking-tight text-chalk">
+        <span className={cn("font-display text-[1.15rem] font-bold tracking-tight transition-colors duration-500", light ? "text-white" : "text-chalk")}>
           {name}
         </span>
         {tagline && (
-          <span className="mt-1 text-[0.6rem] font-medium tracking-[0.18em] text-fog uppercase">
+          <span className={cn("mt-1 text-[0.6rem] font-medium tracking-[0.18em] uppercase transition-colors duration-500", light ? "text-white/70" : "text-fog")}>
             {tagline}
           </span>
         )}

@@ -38,7 +38,7 @@ export function SplitText({
   return (
     <Tag
       ref={ref as React.Ref<never>}
-      className={cn("inline-block", className)}
+      className={cn(Tag === "span" ? "inline-block" : "block", className)}
     >
       {words.map((word, i) => (
         // The space must sit BETWEEN the inline-block masks as a real text

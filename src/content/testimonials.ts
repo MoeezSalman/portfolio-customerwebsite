@@ -1,4 +1,5 @@
 import type { Bi } from "@/i18n/config";
+import { photo, type MediaSlot } from "@/lib/media";
 
 export type Testimonial = {
   id: string;
@@ -7,73 +8,54 @@ export type Testimonial = {
   role: Bi;
   service: string;
   rating: number;
+  /** The floor they are talking about. */
+  media: MediaSlot;
 };
 
 export const testimonials: Testimonial[] = [
   {
-    id: "t1",
+    id: "abu-fahad",
     quote: {
-      en: "Two companies before them sold me a coating that peeled. ShinePro ground the marble back properly and showed me the gloss readings before and after. Eighteen months on it still looks the same.",
-      ar: "شركتان قبلهم باعوني طبقة تقشرت. شاين برو جلوا الرخام بشكل صحيح وأروني قياسات اللمعان قبل وبعد. وبعد ثمانية عشر شهرًا ما زال كما هو.",
+      en: "The floor looks like the day we moved in. No dust, done in one day.",
+      ar: "الأرضية صارت مثل يوم سكنّا. بدون غبار، وانتهوا في يوم واحد.",
     },
-    name: { en: "Abdulaziz A.", ar: "عبدالعزيز أ." },
-    role: { en: "Villa owner, Al Malqa", ar: "مالك فيلا، الملقا" },
-    service: "marble-restoration",
+    name: { en: "Abu Fahad", ar: "أبو فهد" },
+    role: { en: "Villa owner, Al Yasmin", ar: "صاحب فيلا، الياسمين" },
+    service: "marble-polishing",
     rating: 5,
+    media: photo("villa-lounge", {
+      en: "The polished lounge floor in a family villa",
+      ar: "أرضية الصالة المصقولة في فيلا عائلية",
+    }),
   },
   {
-    id: "t2",
+    id: "imam-diriyah",
     quote: {
-      en: "They found a leak two previous contractors had missed, and opened forty centimetres of floor instead of tearing up the terrace. The report was detailed enough that my insurer accepted it without question.",
-      ar: "وجدوا تسربًا فات على مقاولَين سابقَين، وفتحوا أربعين سنتيمترًا من الأرضية بدل تكسير التراس بالكامل. وكان التقرير مفصلًا لدرجة أن شركة التأمين قبلته دون نقاش.",
+      en: "They work at night and the hall shines every morning. Very respectful team.",
+      ar: "يعملون ليلًا وتلمع القاعة كل صباح. فريق محترم جدًا.",
     },
-    name: { en: "Mohammed R.", ar: "محمد ر." },
-    role: { en: "Homeowner, Hittin", ar: "مالك منزل، حطين" },
-    service: "leak-detection",
+    name: { en: "Sheikh Abdullah", ar: "الشيخ عبدالله" },
+    role: { en: "Mosque committee, Diriyah", ar: "لجنة المسجد، الدرعية" },
+    service: "shine-maintenance",
     rating: 5,
+    media: photo("mosque-prayer-hall", {
+      en: "The mosque prayer hall with a white marble floor",
+      ar: "قاعة صلاة المسجد بأرضية رخام أبيض",
+    }),
   },
   {
-    id: "t3",
+    id: "sara-office",
     quote: {
-      en: "We manage fourteen floors. Before the contract we were firefighting; now I get a quarterly report telling me what will need budget next quarter. That alone changed how I plan the year.",
-      ar: "ندير أربعة عشر طابقًا. قبل العقد كنا نطفئ الحرائق، والآن أحصل على تقرير ربع سنوي يخبرني بما سيحتاج ميزانية في الربع القادم. وهذا وحده غيّر طريقة تخطيطي للسنة.",
+      en: "Fixed price, on time, and the lobby finally looks like a real head office.",
+      ar: "سعر ثابت، في الموعد، والبهو أخيرًا يبدو كمقر رئيسي حقيقي.",
     },
-    name: { en: "Faisal K.", ar: "فيصل ك." },
-    role: { en: "Facilities manager, Olaya", ar: "مدير مرافق، العليا" },
-    service: "annual-contracts",
+    name: { en: "Sara M.", ar: "سارة م." },
+    role: { en: "Facilities manager, Al Olaya", ar: "مديرة مرافق، العليا" },
+    service: "granite-polishing",
     rating: 5,
-  },
-  {
-    id: "t4",
-    quote: {
-      en: "What I appreciated most was being told a partial polish would look patchy. They talked me out of the cheaper option and explained why. That is not something you often hear.",
-      ar: "أكثر ما قدّرته أنهم أخبروني بأن الجلي الجزئي سيبدو غير متجانس. أقنعوني بالعدول عن الخيار الأرخص وشرحوا السبب. وهذا أمر لا تسمعه كثيرًا.",
-    },
-    name: { en: "Nouf S.", ar: "نوف س." },
-    role: { en: "Homeowner, Al Yasmin", ar: "مالكة منزل، الياسمين" },
-    service: "floor-polishing",
-    rating: 5,
-  },
-  {
-    id: "t5",
-    quote: {
-      en: "Forty-six villas serviced in three weeks and not one family left without cooling overnight. We had nineteen emergency callouts the summer before and none the summer after.",
-      ar: "ست وأربعون فيلا خلال ثلاثة أسابيع ولم تبقَ أسرة واحدة بلا تبريد ليلًا. كان لدينا تسعة عشر استدعاء طارئ في الصيف السابق ولا شيء في الصيف التالي.",
-    },
-    name: { en: "Turki M.", ar: "تركي م." },
-    role: { en: "Compound board, Al Narjis", ar: "مجلس ملاك مجمّع، النرجس" },
-    service: "ac-maintenance",
-    rating: 5,
-  },
-  {
-    id: "t6",
-    quote: {
-      en: "Five weeks from shell to opening, and they handed over two days early. The site manager answered every message the same day. For a fit-out, that is rare.",
-      ar: "خمسة أسابيع من الهيكل إلى الافتتاح، وسلّموا قبل الموعد بيومين. ومدير الموقع كان يرد على كل رسالة في نفس اليوم. وهذا نادر في أعمال التشطيب.",
-    },
-    name: { en: "Layla H.", ar: "ليلى هـ." },
-    role: { en: "Operations lead, Diriyah", ar: "مديرة عمليات، الدرعية" },
-    service: "renovation",
-    rating: 5,
+    media: photo("lobby-reception", {
+      en: "The polished office reception floor",
+      ar: "أرضية استقبال المكتب المصقولة",
+    }),
   },
 ];

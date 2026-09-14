@@ -1,118 +1,52 @@
-"use client";
-
-import { useRef } from "react";
-import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import { type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { processSteps } from "@/content/site";
 import { localizeNumber } from "@/lib/utils";
+import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Section } from "@/components/ui/PageHero";
+import { Figure } from "@/components/graphics/Figure";
+import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 
-/**
- * Scroll-driven process timeline. A rail fills as you scroll and each step
- * lights up when the rail reaches it.
- */
+/** How it works: four photographs, four numbers, one line each. */
 export function ProcessSection({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
-  const ref = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 72%", "end 62%"],
-  });
-  const fill = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 26,
-    restDelta: 0.001,
-  });
 
   return (
-    <Section className="border-y border-line bg-ink-2/45">
+    <Section>
       <div className="container-x">
         <SectionHeading
           eyebrow={t("sectionProcess")}
           title={t("sectionProcessTitle")}
-          align="center"
-          accent="aqua"
+          className="mb-8 md:mb-10"
         />
 
-        <div ref={ref} className="relative mx-auto mt-20 max-w-3xl">
-          {/* Rail */}
-          <div className="absolute inset-y-0 start-[27px] w-px bg-line md:start-1/2 md:-translate-x-1/2">
-            <motion.div
-              style={{ scaleY: fill }}
-              className="h-full w-full origin-top bg-gradient-to-b from-gold via-aqua to-gold"
-            />
-          </div>
-
-          <ol className="flex flex-col gap-14">
-            {processSteps.map((step, i) => (
-              <Step
-                key={step.title.en}
-                index={i}
-                total={processSteps.length}
-                progress={fill}
-                number={localizeNumber(String(i + 1).padStart(2, "0"), locale)}
-                title={step.title[locale]}
-                body={step.body[locale]}
-              />
-            ))}
-          </ol>
-        </div>
+        <RevealGroup as="ol" className="grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-4" stagger={0.08}>
+          {processSteps.map((step, i) => (
+            <RevealItem key={step.title.en} as="li" className="group">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-card bg-ink-2">
+                <Figure
+                  slot={step.media}
+                  locale={locale}
+                  sizes="(max-width: 1024px) 50vw, 25vw"
+                  className="absolute inset-0"
+                  imgClassName="transition-transform duration-[900ms] ease-[var(--ease-expo)] group-hover:scale-[1.06]"
+                />
+                <span className="absolute top-4 start-4 grid size-11 place-items-center rounded-full bg-gold font-display text-[1.1rem] font-bold text-chalk shadow-lg">
+                  {localizeNumber(i + 1, locale)}
+                </span>
+                <div className="scrim absolute inset-x-0 bottom-0 p-4 pt-16 md:p-5">
+                  <p className="font-display text-[1.1rem] leading-tight font-bold text-white md:text-[1.3rem]">
+                    {step.title[locale]}
+                  </p>
+                  <p className="mt-1.5 text-[0.82rem] leading-snug text-white/80 md:text-[0.9rem]">
+                    {step.body[locale]}
+                  </p>
+                </div>
+              </div>
+            </RevealItem>
+          ))}
+        </RevealGroup>
       </div>
     </Section>
-  );
-}
-
-function Step({
-  index,
-  total,
-  progress,
-  number,
-  title,
-  body,
-}: {
-  index: number;
-  total: number;
-  progress: ReturnType<typeof useSpring>;
-  number: string;
-  title: string;
-  body: string;
-}) {
-  // The dot activates as the rail fill passes its position. The explicit
-  // return type keeps this a MotionValue<number>, not MotionValue<0 | 1>.
-  const threshold = index / Math.max(total - 1, 1);
-  const active = useTransform(progress, (v): number =>
-    v >= threshold - 0.04 ? 1 : 0,
-  );
-  const dotScale = useTransform(active, [0, 1], [0.72, 1]);
-  const bodyOpacity = useTransform(active, [0, 1], [0.42, 1]);
-
-  const alignEnd = index % 2 === 1;
-
-  return (
-    <motion.li
-      style={{ opacity: bodyOpacity }}
-      className={`relative flex gap-6 md:w-1/2 ${
-        alignEnd ? "md:ms-auto md:ps-12" : "md:pe-12 md:text-end"
-      }`}
-    >
-      <motion.span
-        style={{ scale: dotScale }}
-        className={`absolute top-1 z-10 grid size-14 shrink-0 place-items-center rounded-full border border-line-2 bg-ink font-display text-[0.85rem] font-bold text-gold ${
-          alignEnd
-            ? "start-0 md:-start-7"
-            : "start-0 md:start-auto md:-end-7"
-        }`}
-      >
-        {number}
-      </motion.span>
-
-      <div className={`ps-20 md:ps-0 ${alignEnd ? "md:ps-8" : "md:pe-8"}`}>
-        <h3 className="font-display text-[1.15rem] font-bold text-chalk">{title}</h3>
-        <p className="mt-3 leading-relaxed text-fog">{body}</p>
-      </div>
-    </motion.li>
   );
 }

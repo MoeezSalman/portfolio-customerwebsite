@@ -1,159 +1,120 @@
 import type { Bi, Locale } from "./config";
 
-/** Every UI string that is not part of the content layer. */
+/** Every UI string that is not part of the content layer. Kept plain. */
 const d = {
   // --- global chrome ---
   skipToContent: { en: "Skip to content", ar: "تخطَّ إلى المحتوى" },
   menu: { en: "Menu", ar: "القائمة" },
   close: { en: "Close", ar: "إغلاق" },
   switchLang: { en: "العربية", ar: "English" },
-  switchLangAria: {
-    en: "Switch to Arabic",
-    ar: "التبديل إلى الإنجليزية",
-  },
+  switchLangAria: { en: "Switch to Arabic", ar: "التبديل إلى الإنجليزية" },
   loading: { en: "Loading", ar: "جارٍ التحميل" },
 
   // --- calls to action ---
-  getQuote: { en: "Get a free quote", ar: "احصل على عرض سعر مجاني" },
-  getQuoteShort: { en: "Free quote", ar: "عرض سعر مجاني" },
+  getQuote: { en: "Get a free price", ar: "اطلب سعرًا مجانيًا" },
+  getQuoteShort: { en: "Free price", ar: "سعر مجاني" },
   callNow: { en: "Call now", ar: "اتصل الآن" },
   whatsapp: { en: "WhatsApp us", ar: "راسلنا على واتساب" },
-  bookVisit: { en: "Book a survey", ar: "احجز معاينة" },
-  viewAll: { en: "View all", ar: "عرض الكل" },
-  viewService: { en: "View service", ar: "عرض الخدمة" },
-  viewProject: { en: "View project", ar: "عرض المشروع" },
-  readMore: { en: "Read more", ar: "اقرأ المزيد" },
+  bookVisit: { en: "Book a visit", ar: "احجز زيارة" },
+  viewAll: { en: "See all", ar: "عرض الكل" },
+  viewService: { en: "See service", ar: "عرض الخدمة" },
+  viewProject: { en: "See project", ar: "عرض المشروع" },
+  readMore: { en: "Read", ar: "اقرأ" },
   backTo: { en: "Back to", ar: "العودة إلى" },
-  exploreServices: { en: "Explore services", ar: "استكشف الخدمات" },
+  exploreServices: { en: "See our services", ar: "شاهد خدماتنا" },
   seeOurWork: { en: "See our work", ar: "شاهد أعمالنا" },
-  emergencyLine: { en: "24/7 emergency line", ar: "خط الطوارئ ٢٤ ساعة" },
+  sendPhoto: { en: "Send a photo on WhatsApp", ar: "أرسل صورة على واتساب" },
 
   // --- hero ---
-  heroBadge: {
-    en: "Riyadh · Surfaces & Maintenance",
-    ar: "الرياض · الأسطح والصيانة",
-  },
-  heroLine1: { en: "We bring back", ar: "نُعيد إلى أسطحك" },
-  heroLine2: { en: "the shine", ar: "بريقها" },
-  heroLine3: { en: "and keep it there.", ar: "ونحافظ عليه." },
+  heroBadge: { en: "Riyadh · Floor polishing", ar: "الرياض · جلي وتلميع الأرضيات" },
+  heroLine1: { en: "We make", ar: "نجعل" },
+  heroLine2: { en: "floors shine.", ar: "أرضيتك تلمع." },
   scrollHint: { en: "Scroll", ar: "مرّر" },
+  before: { en: "Before", ar: "قبل" },
+  after: { en: "After", ar: "بعد" },
+  dragToCompare: { en: "Drag to compare", ar: "اسحب للمقارنة" },
 
   // --- section headings ---
-  sectionServices: { en: "What we do", ar: "ما نقوم به" },
-  sectionServicesTitle: {
-    en: "Fourteen trades. One accountable team.",
-    ar: "أربع عشرة مهنة. فريق واحد مسؤول.",
-  },
+  sectionServices: { en: "What we polish", ar: "ماذا نلمّع" },
+  sectionServicesTitle: { en: "Every hard floor. One team.", ar: "كل أرضية صلبة. فريق واحد." },
+  sectionPlaces: { en: "Where we work", ar: "أين نعمل" },
+  sectionPlacesTitle: { en: "Homes, mosques, offices and more", ar: "منازل ومساجد ومكاتب وأكثر" },
+  sectionShine: { en: "Before and after", ar: "قبل وبعد" },
+  sectionShineTitle: { en: "See the difference", ar: "شاهد الفرق" },
   sectionProcess: { en: "How it works", ar: "كيف نعمل" },
-  sectionProcessTitle: {
-    en: "From first photo to final handover",
-    ar: "من أول صورة إلى التسليم النهائي",
-  },
-  sectionEquipment: { en: "Our machinery", ar: "معداتنا" },
-  sectionEquipmentTitle: {
-    en: "The tools decide the result",
-    ar: "المعدات هي التي تحدد النتيجة",
-  },
-  sectionProjects: { en: "Selected work", ar: "أعمال مختارة" },
-  sectionProjectsTitle: {
-    en: "Jobs we are happy to be measured on",
-    ar: "أعمال يسعدنا أن نُقاس بها",
-  },
-  sectionGuarantees: { en: "Our promise", ar: "التزامنا" },
-  sectionTestimonials: { en: "Clients", ar: "عملاؤنا" },
-  sectionTestimonialsTitle: {
-    en: "What people say afterwards",
-    ar: "ما يقوله الناس بعد الإنجاز",
-  },
+  sectionProcessTitle: { en: "Four easy steps", ar: "أربع خطوات سهلة" },
+  sectionEquipment: { en: "Our machines", ar: "معداتنا" },
+  sectionEquipmentTitle: { en: "Big machines. Real shine.", ar: "معدات قوية. لمعان حقيقي." },
+  sectionProjects: { en: "Our work", ar: "أعمالنا" },
+  sectionProjectsTitle: { en: "Floors we are proud of", ar: "أرضيات نفخر بها" },
+  sectionGuarantees: { en: "Our promise", ar: "وعدنا" },
+  sectionTestimonials: { en: "Happy clients", ar: "عملاء سعداء" },
+  sectionTestimonialsTitle: { en: "What people say", ar: "ماذا يقول الناس" },
   sectionFaq: { en: "Questions", ar: "أسئلة" },
-  sectionFaqTitle: { en: "Answered plainly", ar: "إجابات مباشرة" },
+  sectionFaqTitle: { en: "Quick answers", ar: "إجابات سريعة" },
   sectionCoverage: { en: "Coverage", ar: "نطاق الخدمة" },
-  sectionCoverageTitle: { en: "Where we work", ar: "أين نعمل" },
-  sectionBlog: { en: "Journal", ar: "المدونة" },
-  sectionBlogTitle: {
-    en: "Things worth knowing before you hire anyone",
-    ar: "أمور تستحق المعرفة قبل أن توظّف أحدًا",
-  },
+  sectionCoverageTitle: { en: "All of Riyadh", ar: "الرياض كلها" },
+  sectionBlog: { en: "Tips", ar: "نصائح" },
+  sectionBlogTitle: { en: "Simple tips for a shiny floor", ar: "نصائح بسيطة لأرضية لامعة" },
   sectionPackages: { en: "Packages", ar: "الباقات" },
-  sectionPackagesTitle: {
-    en: "Predictable cost, scheduled care",
-    ar: "تكلفة متوقعة وصيانة مجدولة",
-  },
+  sectionPackagesTitle: { en: "Pick what fits you", ar: "اختر ما يناسبك" },
+  sectionGallery: { en: "Gallery", ar: "المعرض" },
 
   // --- service / project detail ---
-  startingFrom: { en: "Starting from", ar: "ابتداءً من" },
-  whatsIncluded: { en: "What's included", ar: "ما يشمله" },
-  howWeDeliver: { en: "How we deliver it", ar: "كيف ننفّذه" },
-  equipmentUsed: { en: "Equipment we use", ar: "المعدات المستخدمة" },
-  relatedServices: { en: "Related services", ar: "خدمات ذات صلة" },
-  moreProjects: { en: "More projects", ar: "مشاريع أخرى" },
-  searchTerms: { en: "Also searched as", ar: "يُبحث عنها أيضًا بـ" },
-  theChallenge: { en: "The challenge", ar: "التحدي" },
-  ourApproach: { en: "Our approach", ar: "منهجنا" },
-  theOutcome: { en: "The outcome", ar: "النتيجة" },
-  client: { en: "Client", ar: "العميل" },
-  sector: { en: "Sector", ar: "القطاع" },
+  startingFrom: { en: "From", ar: "من" },
+  whatsIncluded: { en: "What you get", ar: "ماذا تحصل عليه" },
+  howWeDeliver: { en: "How we do it", ar: "كيف ننفذه" },
+  equipmentUsed: { en: "Machines we use", ar: "المعدات المستخدمة" },
+  relatedServices: { en: "More services", ar: "خدمات أخرى" },
+  moreProjects: { en: "More work", ar: "أعمال أخرى" },
+  searchTerms: { en: "Also called", ar: "يُعرف أيضًا بـ" },
+  theStory: { en: "The story", ar: "القصة" },
+  place: { en: "Place", ar: "المكان" },
   year: { en: "Year", ar: "السنة" },
   district: { en: "District", ar: "الحي" },
-  scale: { en: "Scale", ar: "الحجم" },
-  duration: { en: "Duration", ar: "المدة" },
   servicesUsed: { en: "Services", ar: "الخدمات" },
-  specifications: { en: "Specifications", ar: "المواصفات" },
-  whyItMatters: { en: "Why it matters", ar: "لماذا هي مهمة" },
+  whatItDoes: { en: "What it does", ar: "ماذا تفعل" },
   minRead: { en: "min read", ar: "دقائق قراءة" },
   published: { en: "Published", ar: "نُشر في" },
 
   // --- packages ---
-  monthly: { en: "Monthly", ar: "شهري" },
-  yearly: { en: "Yearly", ar: "سنوي" },
-  perMonth: { en: "/ month", ar: "/ شهريًا" },
-  perYear: { en: "/ year", ar: "/ سنويًا" },
   mostPopular: { en: "Most chosen", ar: "الأكثر اختيارًا" },
   bestFor: { en: "Best for", ar: "الأنسب لـ" },
-  notIncluded: { en: "Not included", ar: "غير مشمول" },
-  choosePlan: { en: "Choose this plan", ar: "اختر هذه الباقة" },
-  saveWithYearly: { en: "Save with yearly billing", ar: "وفّر مع الدفع السنوي" },
+  choosePlan: { en: "Choose this", ar: "اختر هذه" },
   goodToKnow: { en: "Good to know", ar: "معلومات مهمة" },
 
   // --- coverage ---
-  responseTime: { en: "Response", ar: "الاستجابة" },
+  responseTime: { en: "We reach you in", ar: "نصل إليك خلال" },
   minutes: { en: "min", ar: "دقيقة" },
   coreDistricts: { en: "Core districts", ar: "أحياء أساسية" },
   extendedDistricts: { en: "Extended coverage", ar: "تغطية موسّعة" },
 
-  // --- filters ---
-  filterAll: { en: "All", ar: "الكل" },
-  noResults: { en: "Nothing matches that filter.", ar: "لا توجد نتائج لهذا التصفية." },
-
   // --- contact form ---
-  contactTitle: { en: "Tell us about the job", ar: "أخبرنا عن العمل المطلوب" },
+  contactTitle: { en: "Tell us about your floor", ar: "أخبرنا عن أرضيتك" },
   contactLead: {
-    en: "Send the details and we will come back with an indicative price, usually the same day. Photos help more than descriptions.",
-    ar: "أرسل التفاصيل وسنعود إليك بسعر تقريبي، عادةً في نفس اليوم. والصور أفيد من الأوصاف.",
+    en: "Send the details and we reply with a price, usually the same day. A photo helps most.",
+    ar: "أرسل التفاصيل ونرد عليك بالسعر، عادةً في نفس اليوم. الصورة تساعد أكثر.",
   },
   fieldName: { en: "Your name", ar: "الاسم" },
   fieldPhone: { en: "Phone number", ar: "رقم الجوال" },
   fieldEmail: { en: "Email (optional)", ar: "البريد الإلكتروني (اختياري)" },
   fieldService: { en: "Which service?", ar: "أي خدمة؟" },
   fieldDistrict: { en: "District", ar: "الحي" },
-  fieldMessage: { en: "Describe the job", ar: "صف العمل المطلوب" },
+  fieldMessage: { en: "About the floor", ar: "عن الأرضية" },
   fieldMessagePlaceholder: {
-    en: "e.g. 180 m² of marble in the majlis, dull with a few etch marks near the serving area.",
-    ar: "مثال: ١٨٠ م² رخام في المجلس، باهت مع بعض آثار الحموضة قرب منطقة الضيافة.",
+    en: "e.g. 180 m² marble in the majlis, dull with a few marks.",
+    ar: "مثال: ١٨٠ م² رخام في المجلس، باهت مع بعض الآثار.",
   },
   selectPlaceholder: { en: "Select…", ar: "اختر…" },
-  submit: { en: "Send request", ar: "إرسال الطلب" },
+  submit: { en: "Send", ar: "إرسال" },
   submitting: { en: "Sending…", ar: "جارٍ الإرسال…" },
-  orWhatsapp: { en: "or send it straight to WhatsApp", ar: "أو أرسله مباشرة عبر واتساب" },
+  orWhatsapp: { en: "or send it on WhatsApp", ar: "أو أرسله على واتساب" },
   required: { en: "Required", ar: "مطلوب" },
-  invalidPhone: {
-    en: "Enter a valid Saudi mobile number",
-    ar: "أدخل رقم جوال سعودي صحيح",
-  },
-  sentTitle: { en: "Request received", ar: "تم استلام طلبك" },
+  invalidPhone: { en: "Enter a valid Saudi mobile number", ar: "أدخل رقم جوال سعودي صحيح" },
+  sentTitle: { en: "Got it!", ar: "وصلنا طلبك!" },
   sentBody: {
-    en: "We will be in touch shortly. For anything urgent, call or WhatsApp us directly.",
-    ar: "سنتواصل معك قريبًا. ولأي أمر عاجل، اتصل أو راسلنا على واتساب مباشرة.",
+    en: "We will be in touch soon. For anything urgent, call or WhatsApp us.",
+    ar: "سنتواصل معك قريبًا. ولأي أمر عاجل، اتصل أو راسلنا على واتساب.",
   },
   sendAnother: { en: "Send another", ar: "إرسال طلب آخر" },
 
@@ -165,8 +126,8 @@ const d = {
 
   // --- footer ---
   footerBlurb: {
-    en: "Tile and marble polishing, plumbing, electrical, AC and full property maintenance across Riyadh — one accountable team, one fixed quote.",
-    ar: "جلي وتلميع البلاط والرخام، والسباكة، والكهرباء، والتكييف، والصيانة الشاملة للعقارات في الرياض — فريق واحد مسؤول وعرض سعر ثابت.",
+    en: "Marble, tile, granite and terrazzo polishing across Riyadh. Fixed price. 90-day shine guarantee.",
+    ar: "جلي وتلميع الرخام والبلاط والجرانيت والترازو في الرياض. سعر ثابت. ضمان لمعان ٩٠ يومًا.",
   },
   footerServices: { en: "Services", ar: "الخدمات" },
   footerCompany: { en: "Company", ar: "الشركة" },
@@ -177,19 +138,18 @@ const d = {
   // --- 404 ---
   notFoundTitle: { en: "That page is not here", ar: "هذه الصفحة غير موجودة" },
   notFoundBody: {
-    en: "The link may be old, or the page may have moved. Try the services index or get in touch.",
-    ar: "قد يكون الرابط قديمًا أو الصفحة قد نُقلت. جرّب صفحة الخدمات أو تواصل معنا.",
+    en: "The link may be old. Try our services or get in touch.",
+    ar: "قد يكون الرابط قديمًا. جرّب خدماتنا أو تواصل معنا.",
   },
   goHome: { en: "Back to home", ar: "العودة للرئيسية" },
 
   // --- misc ---
-  trustedBy: { en: "Trusted across Riyadh since 2008", ar: "موثوقون في الرياض منذ ٢٠٠٨" },
-  ratedBy: { en: "rated by clients", ar: "بتقييم العملاء" },
+  trustedBy: { en: "Trusted across Riyadh since 2014", ar: "موثوقون في الرياض منذ ٢٠١٤" },
 } satisfies Record<string, Bi>;
 
 export type DictKey = keyof typeof d;
 
-/** Returns a translator bound to one locale: `t("getQuote")`. */
+/** Returns a translator bound to one locale: t("getQuote"). */
 export function getDictionary(locale: Locale) {
   return function t(key: DictKey): string {
     return d[key][locale];
