@@ -17,14 +17,7 @@ const TEAL = "#0f8a7b";
  * marker highlights the list row. Leaflet touches `window` on import, so it
  * is loaded inside the effect rather than at module scope.
  */
-export function CoverageMap({
-  locale,
-  overlay,
-}: {
-  locale: Locale;
-  /** Floats over the map's top-start corner — the page title lives here. */
-  overlay?: React.ReactNode;
-}) {
+export function CoverageMap({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
   const [active, setActive] = useState<string | null>(null);
   const mapEl = useRef<HTMLDivElement>(null);
@@ -132,11 +125,6 @@ export function CoverageMap({
     <div className="grid gap-3 md:gap-4 lg:grid-cols-5">
       <div className="lg:col-span-3">
         <div className="relative overflow-hidden rounded-card">
-          {overlay && (
-            <div className="pointer-events-none z-[500] mb-3 lg:absolute lg:top-4 lg:start-4 lg:mb-0 lg:max-w-[min(26rem,calc(100%-2rem))] [&_a]:pointer-events-auto">
-              {overlay}
-            </div>
-          )}
           <div
             ref={mapEl}
             className="aspect-[4/5] w-full bg-ink-2 sm:aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-[36rem]"

@@ -49,7 +49,8 @@ export function Header({ locale }: { locale: Locale }) {
     return href === "/" ? pathname === full : pathname.startsWith(full);
   };
 
-  const desktopNav = nav.filter((n) => n.href !== "/" && n.href !== "/contact" && n.href !== "/about");
+  // Contact lives in the CTA button; About in the drawer and footer.
+  const desktopNav = nav.filter((n) => n.href !== "/contact" && n.href !== "/about");
   const light = onDark && !scrolled;
 
   return (
@@ -70,13 +71,13 @@ export function Header({ locale }: { locale: Locale }) {
             <Logo name={site.name[locale]} tagline={locale === "ar" ? "الرياض" : "Riyadh"} light={light} />
           </Link>
 
-          <nav className="hidden items-center gap-1 lg:flex">
+          <nav className="hidden items-center gap-0.5 lg:flex xl:gap-1">
             {desktopNav.map((item) => (
               <Link
                 key={item.href}
                 href={localePath(locale, item.href)}
                 className={cn(
-                  "relative rounded-full px-3.5 py-2 text-[0.86rem] font-medium transition-colors duration-300",
+                  "relative rounded-full px-2.5 py-2 text-[0.84rem] font-medium whitespace-nowrap transition-colors duration-300 xl:px-3.5 xl:text-[0.86rem]",
                   isActive(item.href)
                     ? light ? "text-gold-3" : "text-gold"
                     : light ? "text-white/80 hover:text-white" : "text-fog hover:text-chalk",

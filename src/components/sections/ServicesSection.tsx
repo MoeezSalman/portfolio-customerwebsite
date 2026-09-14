@@ -47,7 +47,7 @@ export function ServicesSection({
             <RevealItem
               key={s.slug}
               as="li"
-              className={cn(i === 0 && bigFirst && "sm:col-span-2")}
+              className={cn(i === 0 && bigFirst && "sm:col-span-2", i === 1 && bigFirst && "sm:h-full")}
             >
               <PhotoTile
                 slot={s.media}
@@ -56,7 +56,14 @@ export function ServicesSection({
                 sub={s.short[locale]}
                 badge={`${t("startingFrom")} ${s.startingFrom[locale]}`}
                 href={localePath(locale, `/services/${s.slug}`)}
-                aspect={i === 0 && bigFirst ? "aspect-[4/3] sm:aspect-[2/1]" : "aspect-[4/3]"}
+                // The tile beside the wide one stretches to the row so the pair lines up.
+                aspect={
+                  i === 0 && bigFirst
+                    ? "aspect-[4/3] sm:aspect-[2/1]"
+                    : i === 1 && bigFirst
+                      ? "aspect-[4/3] sm:aspect-auto sm:h-full"
+                      : "aspect-[4/3]"
+                }
                 sizes={i === 0 && bigFirst ? "(max-width: 640px) 100vw, 66vw" : "(max-width: 640px) 100vw, 33vw"}
                 titleSize={i === 0 && bigFirst ? "lg" : "md"}
                 priority={i === 0}

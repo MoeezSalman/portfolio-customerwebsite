@@ -1,21 +1,18 @@
-"use client";
-
-import { useRef } from "react";
 import Link from "next/link";
-import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import { type Locale } from "@/i18n/config";
 import type { MediaSlot } from "@/lib/media";
 import { Crumbs, type Crumb } from "@/components/ui/Section";
 import { Figure } from "@/components/graphics/Figure";
+import { Marquee } from "@/components/motion/Marquee";
 import { SplitText } from "@/components/motion/SplitText";
 import { Reveal } from "@/components/motion/Reveal";
 
 export type Frame = { media: MediaSlot; label: string; href: string };
 
 /**
- * Filmstrip hero — a title, then a strip of photographs that travels
- * sideways as you scroll, like frames being pulled through a projector.
- * One translateX on one element; nothing else animates.
+ * Filmstrip hero — a title, then a strip of photographs that glides past on
+ * its own, like a slideshow that never stops. Pure CSS animation on one
+ * track; it pauses while the pointer is over it so a frame can be clicked.
  */
 export function FilmstripHero({
   locale,
@@ -32,14 +29,6 @@ export function FilmstripHero({
   eyebrow?: string;
   crumbs?: Crumb[];
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  // Driven by page scroll from the top, so the strip is untouched on load and
-  // slides as the reader starts moving. One transform on one element.
-  const { scrollY } = useScroll();
-  const dir = locale === "ar" ? 1 : -1;
-  const raw = useTransform(scrollY, [0, 1400], [0, 520 * dir]);
-  const x = useSpring(raw, { stiffness: 90, damping: 30, mass: 0.35 });
-
   return (
     <section className="relative overflow-hidden pt-24 md:pt-28">
       <div className="pointer-events-none absolute inset-0">
@@ -72,33 +61,34 @@ export function FilmstripHero({
         </div>
       </div>
 
-      {/* The strip — starts inset like the container, then runs off the end edge. */}
-      <div ref={ref} className="container-x relative mt-8 md:mt-10">
-        <motion.ul style={{ x, willChange: "transform" }} className="flex w-max gap-3 md:gap-4">
-          {frames.map((f, i) => (
-            <li key={f.href} className="w-[70vw] shrink-0 sm:w-[44vw] lg:w-[30vw]">
-              <Link
-                href={f.href}
-                className="group relative block aspect-[4/3] overflow-hidden rounded-card bg-ink-2"
-              >
-                <Figure
-                  slot={f.media}
-                  locale={locale}
-                  priority={i < 2}
-                  sizes="(max-width: 640px) 70vw, 30vw"
-                  className="absolute inset-0"
-                  imgClassName="transition-transform duration-[900ms] ease-[var(--ease-expo)] group-hover:scale-[1.06]"
-                />
-                <div className="scrim absolute inset-x-0 bottom-0 p-5 pt-16">
-                  <p className="font-display text-[1.15rem] leading-tight font-bold text-white md:text-[1.35rem]">
-                    {f.label}
-                  </p>
-                </div>
-              </Link>
-            </li>
+      {/* The strip — edge to edge, always moving, slows to a stop on hover. */}
+      <Reveal variant="fade" delay={0.2} className="mt-8 md:mt-10">
+        <Marquee speed={55}>
+          {frames.map((f) => (
+            <Link
+              key={f.href}
+              href={f.href}
+              className="group relative me-3 block aspect-[4/3] w-[70vw] shrink-0 overflow-hidden rounded-card bg-ink-2 sm:w-[44vw] md:me-4 lg:w-[30vw]"
+            >
+              <Figure
+                slot={f.media}
+                locale={locale}
+                // Eager: the strip is already moving when the page opens, and a
+                // frame that pops in blank mid-glide is worse than the extra bytes.
+                priority
+                sizes="(max-width: 640px) 70vw, 30vw"
+                className="absolute inset-0"
+                imgClassName="transition-transform duration-[900ms] ease-[var(--ease-expo)] group-hover:scale-[1.06]"
+              />
+              <div className="scrim absolute inset-x-0 bottom-0 p-5 pt-16">
+                <p className="font-display text-[1.15rem] leading-tight font-bold text-white md:text-[1.35rem]">
+                  {f.label}
+                </p>
+              </div>
+            </Link>
           ))}
-        </motion.ul>
-      </div>
+        </Marquee>
+      </Reveal>
     </section>
   );
 }

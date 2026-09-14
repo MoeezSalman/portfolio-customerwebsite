@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { coverageNote } from "@/content/areas";
-import { places, site } from "@/content/site";
+import { places } from "@/content/site";
 import { Section, Crumbs } from "@/components/ui/Section";
 import { CoverageMap } from "@/components/sections/CoverageMap";
 import { PlacesSection } from "@/components/sections/PlacesSection";
@@ -28,8 +28,8 @@ export async function generateMetadata({
 }
 
 /**
- * Map hero — the map IS the masthead. The title floats on a card over its
- * corner; the district list sits beside it.
+ * Map hero — the map IS the masthead: a one-line title row, then the map
+ * with the district list beside it.
  */
 export default async function AreasPage({ params }: PageProps<"/[locale]/areas">) {
   const { locale } = await params;
@@ -44,30 +44,23 @@ export default async function AreasPage({ params }: PageProps<"/[locale]/areas">
           <Reveal variant="fade" duration={0.5}>
             <Crumbs locale={l} crumbs={[{ label: t("sectionCoverage") }]} className="mb-4" />
           </Reveal>
-          <CoverageMap
-            locale={l}
-            overlay={
-              <div className="glass rounded-card p-5 md:p-6">
-                <span className="inline-flex items-center gap-2.5 text-[0.7rem] font-semibold tracking-[0.22em] text-aqua uppercase">
-                  <span className="h-px w-8 bg-aqua/60" />
-                  {t("sectionCoverage")}
-                </span>
-                <SplitText
-                  as="h1"
-                  text={t("sectionCoverageTitle")}
-                  className="mt-2 font-display text-[clamp(1.8rem,3.5vw,2.8rem)] leading-[1.04] font-bold tracking-tight text-chalk"
-                />
-                <p className="mt-3 text-[0.9rem] leading-relaxed text-mist">{coverageNote[l]}</p>
-                <a
-                  href={`tel:${site.phoneIntl}`}
-                  className="mt-4 inline-flex items-center gap-2 font-display text-[0.9rem] font-semibold text-chalk"
-                >
-                  <Icon name="phone" className="size-4 text-gold" />
-                  <span dir="ltr">{site.phone}</span>
-                </a>
-              </div>
-            }
-          />
+          <div className="mb-6 flex flex-col gap-4 md:mb-8 md:flex-row md:items-end md:justify-between">
+            <div>
+              <span className="inline-flex items-center gap-2.5 text-[0.7rem] font-semibold tracking-[0.22em] text-aqua uppercase">
+                <span className="h-px w-8 bg-aqua/60" />
+                {t("sectionCoverage")}
+              </span>
+              <SplitText
+                as="h1"
+                text={t("sectionCoverageTitle")}
+                className="mt-4 font-display text-[clamp(2.4rem,6vw,5rem)] leading-[1] font-bold tracking-tight text-chalk"
+              />
+            </div>
+            <Reveal variant="up" delay={0.16}>
+              <p className="max-w-[40ch] leading-relaxed text-fog md:text-end">{coverageNote[l]}</p>
+            </Reveal>
+          </div>
+          <CoverageMap locale={l} />
         </div>
       </section>
 

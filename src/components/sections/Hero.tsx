@@ -4,8 +4,7 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { localePath, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { places, site, stats } from "@/content/site";
-import { services } from "@/content/services";
+import { places, processSteps, site, stats } from "@/content/site";
 import { Button } from "@/components/ui/Button";
 import { Counter } from "@/components/motion/Counter";
 import { SplitText } from "@/components/motion/SplitText";
@@ -22,7 +21,7 @@ const ease = [0.16, 1, 0.3, 1] as const;
  */
 export function Hero({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
-  const cover = services[0].gallery[2]; // the grand lobby
+  const cover = processSteps[2].media; // technician on a floor machine, huge shiny floor
   const quick = places.slice(0, 3);
 
   return (
@@ -38,9 +37,11 @@ export function Hero({ locale }: { locale: Locale }) {
         />
       </Parallax>
       {/* Scrims: dark at the bottom for the headline, light at the top for the nav. */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#14110c]/92 via-[#14110c]/40 to-[#14110c]/20" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#14110c]/95 via-[#14110c]/55 to-[#14110c]/25" />
       {/* Extra darkening under the fixed header so the nav stays readable. */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-[#14110c]/70 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-[#14110c]/75 to-transparent" />
+      {/* And behind the headline column, so white type stays crisp on any photo. */}
+      <div className="pointer-events-none absolute inset-y-0 start-0 w-full bg-gradient-to-r from-[#14110c]/60 via-[#14110c]/20 to-transparent rtl:bg-gradient-to-l lg:w-3/4" />
 
       <div className="container-x relative flex flex-1 flex-col justify-end pt-32 pb-24 md:pb-10">
         <div className="grid items-end gap-10 lg:grid-cols-12">

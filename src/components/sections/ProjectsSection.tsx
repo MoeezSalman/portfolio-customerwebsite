@@ -47,7 +47,7 @@ export function ProjectsSection({
 
         <RevealGroup as="ul" className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3" stagger={0.06}>
           {list.map((p, i) => (
-            <RevealItem key={p.slug} as="li" className={cn(i === 0 && bigFirst && "sm:col-span-2")}>
+            <RevealItem key={p.slug} as="li" className={cn(i === 0 && bigFirst && "sm:col-span-2", i === 1 && bigFirst && "sm:h-full")}>
               <PhotoTile
                 slot={p.media}
                 locale={locale}
@@ -55,7 +55,13 @@ export function ProjectsSection({
                 sub={`${p.place[locale]} · ${p.district[locale]}`}
                 badge={p.facts[0].value[locale]}
                 href={localePath(locale, `/projects/${p.slug}`)}
-                aspect={i === 0 && bigFirst ? "aspect-[4/3] sm:aspect-[2/1]" : "aspect-[4/3]"}
+                aspect={
+                  i === 0 && bigFirst
+                    ? "aspect-[4/3] sm:aspect-[2/1]"
+                    : i === 1 && bigFirst
+                      ? "aspect-[4/3] sm:aspect-auto sm:h-full"
+                      : "aspect-[4/3]"
+                }
                 sizes={i === 0 && bigFirst ? "(max-width: 640px) 100vw, 66vw" : "(max-width: 640px) 100vw, 33vw"}
                 titleSize={i === 0 && bigFirst ? "lg" : "md"}
               />
