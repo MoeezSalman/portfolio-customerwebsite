@@ -8,7 +8,7 @@ import { ProcessSection } from "@/components/sections/ProcessSection";
 import { EquipmentSection } from "@/components/sections/EquipmentSection";
 import { ProjectsSection } from "@/components/sections/ProjectsSection";
 import { GuaranteesSection } from "@/components/sections/GuaranteesSection";
-import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
+import { FeedbackSection } from "@/components/sections/FeedbackSection";
 import { FaqSection } from "@/components/sections/FaqSection";
 import { CtaSection } from "@/components/sections/CtaSection";
 import { WordBand } from "@/components/motion/WordBand";
@@ -31,7 +31,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       <WordBand locale={l} set="promise" />
       <GuaranteesSection locale={l} />
       <ProjectsSection locale={l} limit={3} />
-      <TestimonialsSection locale={l} />
+      <FeedbackSection locale={l} />
       <FaqSection locale={l} limit={4} />
       <CtaSection locale={l} />
     </>

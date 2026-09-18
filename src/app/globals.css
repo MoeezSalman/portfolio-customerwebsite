@@ -124,12 +124,6 @@
     line-height: 1.85;
     letter-spacing: 0;
   }
-  [dir="rtl"] h1,
-  [dir="rtl"] h2,
-  [dir="rtl"] h3 {
-    line-height: 1.45;
-    letter-spacing: 0;
-  }
 
   ::selection {
     background: var(--color-gold);
@@ -157,6 +151,18 @@
   ::-webkit-scrollbar-thumb:hover {
     background: var(--color-gold);
   }
+}
+
+/* Arabic headings need taller lines than the Latin display face: IBM Plex
+   Sans Arabic carries deep descenders (ج ع ي) and tall marks, which a
+   leading-[1] utility clips. This rule is deliberately unlayered so it
+   outranks every leading-* utility on the same element. */
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] .font-display {
+  line-height: 1.35;
+  letter-spacing: 0;
 }
 
 /* --------------------------- helpers --------------------------- */

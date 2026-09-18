@@ -21,9 +21,10 @@ export const site = {
     ar: "نجلي ونلمّع أرضيات الرخام والبلاط والجرانيت والترازو في الرياض. معدات قوية، لمعان حقيقي، وأسعار عادلة.",
   } satisfies Bi,
 
-  phone: "0504501138",
-  phoneIntl: "+966504501138",
-  whatsapp: "966504501138",
+  /** Display form. Digits-only variants below feed tel: and wa.me links. */
+  phone: "+966 57 840 6039",
+  phoneIntl: "+966578406039",
+  whatsapp: "966578406039",
   email: "shinepro313@gmail.com",
 
   address: {
@@ -36,7 +37,7 @@ export const site = {
   } satisfies Bi,
 
   social: [
-    { label: "WhatsApp", href: "https://wa.me/966504501138", icon: "whatsapp" },
+    { label: "WhatsApp", href: "https://wa.me/966578406039", icon: "whatsapp" },
     { label: "Instagram", href: "https://instagram.com/", icon: "instagram" },
     { label: "X", href: "https://x.com/", icon: "x" },
     { label: "TikTok", href: "https://tiktok.com/", icon: "tiktok" },
@@ -200,6 +201,14 @@ export const places: { id: string; title: Bi; media: MediaSlot }[] = [
     media: photo("lobby-grand", {
       en: "A grand hotel lobby with shining marble",
       ar: "بهو فندق فخم برخام لامع",
+    }),
+  },
+  {
+    id: "spas",
+    title: { en: "Spas & hammams", ar: "السبا والحمّامات" },
+    media: photo("spa-hammam", {
+      en: "A marble spa hall with a fountain and a glossy floor",
+      ar: "قاعة سبا رخامية بنافورة وأرضية لامعة",
     }),
   },
   {

@@ -44,7 +44,8 @@ export function SplitText({
         // The space must sit BETWEEN the inline-block masks as a real text
         // node — whitespace inside an inline-block collapses to nothing.
         <span key={`${word}-${i}`}>
-          <span className="inline-block overflow-hidden align-bottom pb-[0.14em] -mb-[0.14em]">
+          {/* The mask is padded so Arabic descenders and marks are not clipped. */}
+          <span className="inline-block overflow-hidden align-bottom pt-[0.12em] -mt-[0.12em] pb-[0.3em] -mb-[0.3em]">
             <motion.span
               className={cn("inline-block", wordClassName)}
               initial={{ y: "108%", opacity: 0 }}

@@ -2,7 +2,7 @@
 
 Every photograph on the site is an **image slot** (`src/lib/media.ts`): a
 stable id that is also the filename here, bilingual alt text, and the path.
-Content files reference slots with `photo("<id>", alt)`. All 56 files
+Content files reference slots with `photo("<id>", alt)`. All 57 files
 are real photographs; the generated `<Plate/>` art is only a fallback.
 
 ## Replacing a photo with the client's own
@@ -80,6 +80,7 @@ appears on. Provenance:
 | `mosque-gold-hall` | Unsplash | `photo-1786343237737-87b73ea5d504` |
 | `mosque-prayer-hall` | Unsplash | `photo-1653048825380-0eecb9580edc` |
 | `salon-marble` | Unsplash | `photo-1706629503586-2731f65587ae` |
+| `spa-hammam` | Unsplash | `photo-1670143773636-b392483d9021` |
 | `showroom-white` | Unsplash | `photo-1774021794777-4ada1deaf41f` |
 | `stairs-marble` | Unsplash | `photo-1781047884697-53a3dc4d7eee` |
 | `team-at-work` | Unsplash | `photo-1772209415876-76ea6cbc2f0c` |

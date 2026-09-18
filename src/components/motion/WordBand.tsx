@@ -11,8 +11,8 @@ const sets = {
     ar: ["بدون غبار", "سعر ثابت", "نفس اليوم", "ضمان ٩٠ يومًا"],
   },
   places: {
-    en: ["Villas", "Mosques", "Offices", "Hotels", "Showrooms"],
-    ar: ["فلل", "مساجد", "مكاتب", "فنادق", "معارض"],
+    en: ["Villas", "Mosques", "Offices", "Hotels", "Spas", "Showrooms"],
+    ar: ["فلل", "مساجد", "مكاتب", "فنادق", "سبا", "معارض"],
   },
   work: {
     en: ["Before", "After", "Before", "After"],
