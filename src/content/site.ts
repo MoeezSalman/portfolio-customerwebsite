@@ -207,8 +207,8 @@ export const places: { id: string; title: Bi; media: MediaSlot }[] = [
     id: "spas",
     title: { en: "Spas & hammams", ar: "السبا والحمّامات" },
     media: photo("spa-hammam", {
-      en: "A marble spa hall with a fountain and a glossy floor",
-      ar: "قاعة سبا رخامية بنافورة وأرضية لامعة",
+      en: "Inside a marble hammam: columns, fountains and a patterned marble floor",
+      ar: "داخل حمّام رخامي: أعمدة ونوافير وأرضية رخام منقوشة",
     }),
   },
   {
