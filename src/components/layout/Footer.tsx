@@ -36,7 +36,7 @@ export function Footer({ locale }: { locale: Locale }) {
       </div>
 
       <div className="container-x grid gap-10 py-12 md:grid-cols-2 md:py-14 lg:grid-cols-12">
-        <div className="lg:col-span-4">
+        <div className="lg:col-span-3">
           <Logo name={site.name[locale]} tagline={locale === "ar" ? "الرياض" : "Riyadh"} />
           <p className="mt-6 max-w-sm leading-relaxed text-fog">{t("footerBlurb")}</p>
           <div className="mt-7 flex gap-2.5">
@@ -57,7 +57,7 @@ export function Footer({ locale }: { locale: Locale }) {
 
         <div className="lg:col-span-4">
           <FooterHeading>{t("footerServices")}</FooterHeading>
-          <ul className="mt-5 grid gap-x-6 gap-y-2.5 sm:grid-cols-2">
+          <ul className="mt-5 grid gap-x-6 gap-y-2.5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
             {services.map((s) => (
               <li key={s.slug}>
                 <FooterLink href={localePath(locale, `/services/${s.slug}`)}>
@@ -79,9 +79,9 @@ export function Footer({ locale }: { locale: Locale }) {
           </ul>
         </div>
 
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-3">
           <FooterHeading>{t("footerContact")}</FooterHeading>
-          <ul className="mt-5 flex flex-col gap-4 text-sm">
+          <ul className="mt-5 flex flex-col gap-4 text-sm [&_li]:break-normal">
             <li>
               <a
                 href={`tel:${site.phoneIntl}`}
@@ -106,7 +106,7 @@ export function Footer({ locale }: { locale: Locale }) {
             <li>
               <a
                 href={`mailto:${site.email}`}
-                className="flex items-start gap-2.5 break-all text-fog transition-colors hover:text-chalk"
+                className="flex items-start gap-2.5 text-fog transition-colors hover:text-chalk"
               >
                 <Icon name="mail" className="mt-0.5 size-4 shrink-0 text-gold" />
                 {site.email}
