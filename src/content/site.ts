@@ -2,15 +2,15 @@ import type { Bi } from "@/i18n/config";
 import { photo, type MediaSlot } from "@/lib/media";
 
 /**
- * Brand + contact details, sourced from the client's live site (shinepro.work).
- * ShinePro does one thing: it makes hard floors shine — marble, tiles,
- * granite, terrazzo. Nothing else is offered anywhere on the site.
+ * Brand + contact details, as supplied by the client (2026-09-19).
+ * Jalibalat (جلي البلاط) does one thing: it makes hard floors shine — marble,
+ * tiles, granite, terrazzo. Nothing else is offered anywhere on the site.
  */
 export const site = {
-  name: { en: "ShinePro", ar: "شاين برو" } satisfies Bi,
+  name: { en: "Jalibalat", ar: "جلي البلاط" } satisfies Bi,
   legalName: {
-    en: "ShinePro Floor Polishing",
-    ar: "شاين برو لجلي وتلميع الأرضيات",
+    en: "Jalibalat Floor Polishing, Riyadh",
+    ar: "مؤسسة جلي البلاط للجلي والتلميع — الرياض",
   } satisfies Bi,
   tagline: {
     en: "Riyadh's floor shining experts",
@@ -25,12 +25,14 @@ export const site = {
   phone: "+966 57 840 6039",
   phoneIntl: "+966578406039",
   whatsapp: "966578406039",
-  email: "shinepro313@gmail.com",
+  email: "jalibalatriyadh057@gmail.com",
 
   address: {
-    en: "Al Yasmin District, Riyadh, Saudi Arabia",
-    ar: "حي الياسمين، الرياض، المملكة العربية السعودية",
+    en: "Street 13, Olaya, Riyadh, Saudi Arabia",
+    ar: "شارع ١٣، العليا، الرياض، المملكة العربية السعودية",
   } satisfies Bi,
+  /** Head office, for the coverage map and structured data. */
+  geo: { lat: 24.694, lng: 46.685 },
   hours: {
     en: "Sat – Thu, 8:00 AM – 11:00 PM",
     ar: "السبت – الخميس، ٨:٠٠ ص – ١١:٠٠ م",
@@ -38,9 +40,7 @@ export const site = {
 
   social: [
     { label: "WhatsApp", href: "https://wa.me/966578406039", icon: "whatsapp" },
-    { label: "Instagram", href: "https://instagram.com/", icon: "instagram" },
-    { label: "X", href: "https://x.com/", icon: "x" },
-    { label: "TikTok", href: "https://tiktok.com/", icon: "tiktok" },
+    { label: "Email", href: "mailto:jalibalatriyadh057@gmail.com", icon: "mail" },
   ],
 } as const;
 
@@ -55,7 +55,6 @@ export const nav: { href: string; label: Bi }[] = [
   { href: "/services", label: { en: "Services", ar: "خدماتنا" } },
   { href: "/projects", label: { en: "Our work", ar: "أعمالنا" } },
   { href: "/equipment", label: { en: "Machines", ar: "معداتنا" } },
-  { href: "/packages", label: { en: "Packages", ar: "الباقات" } },
   { href: "/areas", label: { en: "Coverage", ar: "نطاق الخدمة" } },
   { href: "/blog", label: { en: "Tips", ar: "نصائح" } },
   { href: "/about", label: { en: "About", ar: "من نحن" } },

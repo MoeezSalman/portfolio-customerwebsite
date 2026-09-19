@@ -5,6 +5,7 @@ import "../globals.css";
 
 import { dirOf, isLocale, locales, type Locale } from "@/i18n/config";
 import { site } from "@/content/site";
+import { SITE_URL } from "@/lib/site-url";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import {
@@ -48,7 +49,7 @@ export async function generateMetadata({
   const title = `${site.name[locale]} — ${site.tagline[locale]}`;
 
   return {
-    metadataBase: new URL("https://shinepro.work"),
+    metadataBase: new URL(SITE_URL),
     title: {
       default: title,
       template: `%s · ${site.name[locale]}`,
@@ -121,13 +122,17 @@ function OrganizationSchema({ locale }: { locale: Locale }) {
     description: site.description[locale],
     telephone: site.phoneIntl,
     email: site.email,
-    url: `https://shinepro.work/${locale}`,
+    url: `${SITE_URL}/${locale}`,
     areaServed: { "@type": "City", name: locale === "ar" ? "الرياض" : "Riyadh" },
     address: {
       "@type": "PostalAddress",
+      streetAddress: locale === "ar" ? "شارع ١٣، العليا" : "Street 13, Olaya",
       addressLocality: locale === "ar" ? "الرياض" : "Riyadh",
       addressCountry: "SA",
     },
+    geo: { "@type": "GeoCoordinates", latitude: site.geo.lat, longitude: site.geo.lng },
+    image: `${SITE_URL}/brand/logo.png`,
+    logo: `${SITE_URL}/brand/logo.png`,
     openingHours: "Sa-Th 08:00-23:00",
   };
 

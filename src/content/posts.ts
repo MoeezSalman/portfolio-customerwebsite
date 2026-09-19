@@ -151,8 +151,8 @@ export const posts: Post[] = [
       {
         heading: { en: "A quick buff once a year", ar: "تلميع سريع مرة في السنة" },
         body: {
-          en: "One short visit a year keeps the floor at full shine. Ask about our home care plan.",
-          ar: "زيارة قصيرة واحدة في السنة تبقي الأرضية بكامل لمعانها. اسأل عن خطة العناية بالمنزل.",
+          en: "One short visit a year keeps the floor at full shine. Ask about our shine maintenance plan.",
+          ar: "زيارة قصيرة واحدة في السنة تبقي الأرضية بكامل لمعانها. اسأل عن خطة صيانة اللمعان.",
         },
         media: photo("machine-rideon", { en: "Our floor machine", ar: "ماكينة الأرضيات لدينا" }),
       },

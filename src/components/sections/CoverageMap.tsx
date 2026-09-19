@@ -5,6 +5,7 @@ import type { Map as LeafletMap, CircleMarker } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { cn, localizeNumber } from "@/lib/utils";
 import { areas } from "@/content/areas";
+import { site } from "@/content/site";
 import { getDictionary } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/config";
 
@@ -72,8 +73,8 @@ export function CoverageMap({ locale }: { locale: Locale }) {
         bounds.extend([a.lat, a.lng]);
       }
 
-      // Head-office response ring: ~8 km around Al Yasmin.
-      L.circle([24.828, 46.649], {
+      // Head-office response ring: ~8 km around Street 13, Olaya.
+      L.circle([site.geo.lat, site.geo.lng], {
         radius: 8000,
         color: GOLD,
         weight: 1,

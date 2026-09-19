@@ -11,7 +11,7 @@ export function Footer({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
   const year = new Date().getFullYear();
   const companyLinks = nav.filter((n) =>
-    ["/about", "/projects", "/equipment", "/packages", "/areas", "/blog", "/faq"].includes(
+    ["/about", "/projects", "/equipment", "/areas", "/blog", "/faq"].includes(
       n.href,
     ),
   );
@@ -37,7 +37,7 @@ export function Footer({ locale }: { locale: Locale }) {
 
       <div className="container-x grid gap-10 py-12 md:grid-cols-2 md:py-14 lg:grid-cols-12">
         <div className="lg:col-span-3">
-          <Logo name={site.name[locale]} tagline={locale === "ar" ? "الرياض" : "Riyadh"} />
+          <Logo size="lg" />
           <p className="mt-6 max-w-sm leading-relaxed text-fog">{t("footerBlurb")}</p>
           <div className="mt-7 flex gap-2.5">
             {site.social.map((s) => (

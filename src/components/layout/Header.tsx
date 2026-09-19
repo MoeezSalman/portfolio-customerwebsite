@@ -68,7 +68,7 @@ export function Header({ locale }: { locale: Locale }) {
             aria-label={site.name[locale]}
             className="shrink-0"
           >
-            <Logo name={site.name[locale]} tagline={locale === "ar" ? "الرياض" : "Riyadh"} light={light} />
+            <Logo priority />
           </Link>
 
           <nav className="hidden items-center gap-0.5 lg:flex xl:gap-1">
@@ -184,7 +184,7 @@ function MobileDrawer({
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="flex items-center justify-between px-6 py-5">
-          <Logo name={site.name[locale]} />
+          <Logo size="sm" />
           <button
             type="button"
             onClick={onClose}

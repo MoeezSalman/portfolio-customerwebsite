@@ -2,7 +2,7 @@ import type { Bi } from "@/i18n/config";
 import { photo, type MediaSlot } from "@/lib/media";
 
 /**
- * Everything ShinePro does is here — and it is all floor shining. Copy is
+ * Everything Jalibalat does is here — and it is all floor shining. Copy is
  * kept short and plain on purpose: the pictures do the explaining.
  */
 export type Service = {

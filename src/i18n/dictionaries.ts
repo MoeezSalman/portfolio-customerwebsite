@@ -87,8 +87,6 @@ const d = {
   sectionCoverageTitle: { en: "All of Riyadh", ar: "الرياض كلها" },
   sectionBlog: { en: "Tips", ar: "نصائح" },
   sectionBlogTitle: { en: "Simple tips for a shiny floor", ar: "نصائح بسيطة لأرضية لامعة" },
-  sectionPackages: { en: "Packages", ar: "الباقات" },
-  sectionPackagesTitle: { en: "Pick what fits you", ar: "اختر ما يناسبك" },
   sectionGallery: { en: "Gallery", ar: "المعرض" },
 
   // --- service / project detail ---
@@ -107,12 +105,6 @@ const d = {
   whatItDoes: { en: "What it does", ar: "ماذا تفعل" },
   minRead: { en: "min read", ar: "دقائق قراءة" },
   published: { en: "Published", ar: "نُشر في" },
-
-  // --- packages ---
-  mostPopular: { en: "Most chosen", ar: "الأكثر اختيارًا" },
-  bestFor: { en: "Best for", ar: "الأنسب لـ" },
-  choosePlan: { en: "Choose this", ar: "اختر هذه" },
-  goodToKnow: { en: "Good to know", ar: "معلومات مهمة" },
 
   // --- coverage ---
   responseTime: { en: "We reach you in", ar: "نصل إليك خلال" },

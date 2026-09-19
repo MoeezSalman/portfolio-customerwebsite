@@ -72,7 +72,6 @@ export function QuoteForm({ locale }: { locale: Locale }) {
   const handoff = () => {
     const service = services.find((s) => s.slug === values.service);
     const district = areas.find((a) => a.id === values.district);
-    const plan = searchParams.get("plan");
 
     const lines = [
       locale === "ar"
@@ -84,7 +83,6 @@ export function QuoteForm({ locale }: { locale: Locale }) {
       values.email && `${t("fieldEmail")}: ${values.email}`,
       service && `${t("fieldService")}: ${service.title[locale]}`,
       district && `${t("fieldDistrict")}: ${district.name[locale]}`,
-      plan && `${t("sectionPackages")}: ${plan}`,
       "",
       values.message,
     ].filter(Boolean);

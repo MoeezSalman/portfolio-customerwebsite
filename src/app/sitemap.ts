@@ -4,7 +4,9 @@ import { serviceSlugs } from "@/content/services";
 import { projectSlugs } from "@/content/projects";
 import { postSlugs } from "@/content/posts";
 
-const BASE = "https://shinepro.work";
+import { SITE_URL } from "@/lib/site-url";
+
+const BASE = SITE_URL;
 
 const staticPaths = [
   "",
@@ -12,7 +14,6 @@ const staticPaths = [
   "/services",
   "/projects",
   "/equipment",
-  "/packages",
   "/areas",
   "/blog",
   "/faq",
