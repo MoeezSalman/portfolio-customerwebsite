@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Jalibalat — جلي البلاط
 
-## Getting Started
+Bilingual (Arabic default / English) marketing site for a Riyadh floor
+polishing company. Next.js 16, React 19, Tailwind CSS 4. Fully static apart
+from one small API route for the feedback wall.
 
-First, run the development server:
+## Run it locally
+
+Requires Node.js 20 or newer.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000  (redirects to /ar)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Build for production
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run build
+npm start          # serves the production build on port 3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deploy
 
-## Learn More
+**Vercel (recommended, zero configuration):** import the folder or the Git
+repository, framework preset "Next.js", no build settings to change. Every
+push to `main` redeploys.
 
-To learn more about Next.js, take a look at the following resources:
+**Any Node host:** run `npm run build` then `npm start` behind your reverse
+proxy (Nginx, Caddy, etc.). The app listens on `PORT` (default 3000).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Environment variables (all optional)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Public origin for canonical links, sitemap and structured data, e.g. `https://jalibalat.com`. Defaults to the current Vercel URL. |
+| `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` | Shared storage for the home-page feedback wall (free Upstash Redis; on Vercel add it from Storage → Marketplace and the variables are set for you). Without them each visitor's posts are kept in their own browser. |
 
-## Deploy on Vercel
+## Where things live
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| What | File |
+| --- | --- |
+| Name, phone, WhatsApp, email, address, head-office coordinates | `src/content/site.ts` |
+| Services, prices, FAQs per service | `src/content/services.ts` |
+| Machines | `src/content/equipment.ts` |
+| Projects (before/after pairs) | `src/content/projects.ts` |
+| Tips articles | `src/content/posts.ts` |
+| Districts on the coverage map | `src/content/areas.ts` |
+| Seed reviews on the feedback wall | `src/lib/feedback.ts` |
+| Every UI label in both languages | `src/i18n/dictionaries.ts` |
+| Photographs (swap by overwriting the file, keep the name) | `public/images/` — see its README |
+| Logo | `public/brand/logo.png`, `public/brand/mark.png`; favicon in `src/app/icon.png` |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Every text lives once as `{ en: "…", ar: "…" }`, so editing content never
+touches components.
