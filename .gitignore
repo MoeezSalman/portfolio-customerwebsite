@@ -45,3 +45,7 @@ next-env.d.ts
 .claude/
 
 .vercel
+
+# generated responsive variants for the static export
+/public/images/sized/
+/.api-parked/

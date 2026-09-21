@@ -4,6 +4,9 @@ import { serviceSlugs } from "@/content/services";
 import { projectSlugs } from "@/content/projects";
 import { postSlugs } from "@/content/posts";
 
+// Also emitted as a plain file by the static export.
+export const dynamic = "force-static";
+
 import { SITE_URL } from "@/lib/site-url";
 
 const BASE = SITE_URL;

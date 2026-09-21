@@ -23,6 +23,20 @@ npm start          # serves the production build on port 3000
 
 ## Deploy
 
+**Static hosting (cPanel, Nginx, any web space):**
+
+```bash
+npm install
+npm run build:static   # writes plain HTML/CSS/JS into out/
+```
+
+Upload the *contents* of `out/` to the web root. Nothing runs on the server.
+An `.htaccess` is included for Apache; on Nginx add `error_page 404 /404.html;`.
+Set `NEXT_PUBLIC_SITE_URL=https://your-domain.com` before building so the
+sitemap and canonical links carry the real domain. In this mode the feedback
+wall keeps each visitor's posts in their own browser (there is no API).
+
+
 **Vercel (recommended, zero configuration):** import the folder or the Git
 repository, framework preset "Next.js", no build settings to change. Every
 push to `main` redeploys.

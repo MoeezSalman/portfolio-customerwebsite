@@ -19,7 +19,10 @@ import { Marquee } from "@/components/motion/Marquee";
 import { Reveal } from "@/components/motion/Reveal";
 import { Icon } from "@/components/graphics/Icon";
 
-const LOCAL_KEY = "shinepro:feedback:v1";
+const LOCAL_KEY = "jalibalat:feedback:v1";
+// The static export has no API route; skip the round trip and go straight to
+// browser storage. Inlined at build time by scripts/build-static.mjs.
+const STATIC = process.env.NEXT_PUBLIC_STATIC_EXPORT === "1";
 const ease = [0.16, 1, 0.3, 1] as const;
 
 /**
@@ -41,6 +44,7 @@ export function FeedbackSection({ locale }: { locale: Locale }) {
       let shared: Feedback[] = [];
       let mode: "redis" | "local" = "local";
       try {
+        if (STATIC) throw new Error("static");
         const res = await fetch("/api/feedback", { cache: "no-store" });
         const json = (await res.json()) as { storage: "redis" | "local"; items: Feedback[] };
         shared = json.items ?? [];
@@ -237,6 +241,7 @@ function FeedbackForm({
     let item: Feedback | null = null;
     let mode: "redis" | "local" = storage;
     try {
+      if (STATIC) throw new Error("static");
       const res = await fetch("/api/feedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

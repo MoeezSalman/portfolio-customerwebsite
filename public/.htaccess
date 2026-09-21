@@ -1,0 +1,7 @@
+# Apache hosts (cPanel etc.): show the site's own 404 page and cache static assets.
+ErrorDocument 404 /404.html
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 30 days"
+  ExpiresByType image/png "access plus 30 days"
+</IfModule>
